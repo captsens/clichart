@@ -1,0 +1,26 @@
+<HTML>
+<BODY>
+
+This package contains classes for creating JFreeChart charts based on data events.
+
+<p>To use this package directly, you would: <ul>
+ <li>Create either a {@link net.sf.clichart.chart.TimeSeriesChartBuilder} (used when
+     the X axis of your chart will be a date, time or date/time) or an
+     {@link net.sf.clichart.chart.XYChartBuilder}
+     (used when the X axis is a simple value, or when there is 'no' X value).
+ <li>Feed data to the chart builder, typically from a
+     {@link net.sf.clichart.data.DataParser},
+     although you can call the {@link net.sf.clichart.chart.AbstractChartBuilder#headerParsed} and
+     {@link net.sf.clichart.chart.AbstractChartBuilder#dataParsed} methods directly if you wish
+ <li>When the data is finished, call
+     {@link net.sf.clichart.chart.AbstractChartBuilder#getChart} to return the
+     JFreeChart chart.  You'll have to pass in an object providing the appropriate options
+     for generating the chart - either your own implementation of the
+     {@link net.sf.clichart.chart.Options}
+     interface, or using the {@link net.sf.clichart.chart.OptionsBean}.
+</ul>
+
+See the {@link net.sf.clichart.main} package for examples of using these classes.
+
+</BODY>
+</HTML>

@@ -1,0 +1,156 @@
+=========================================
+Checklist prior to shipping a new version
+=========================================
+
+0. Check prerequisites
+----------------------
+
+    bin/checkDevPrereqs.py
+    
+
+1. Run all unit tests
+---------------------
+
+    ant run-tests
+    src/test/python/runCoverage.sh
+
+- Check that no tests failed
+- Check that the unit test coverage looks OK.  Note that coverage-marked versions
+  of source files are in target/python/coverage
+
+
+2. Check test coverage
+----------------------
+
+    ant clean coverage
+    open target/java/coverage-report/index.html
+
+
+3. Update version number
+------------------------
+
+In build.xml.
+
+Make sure it matches the version in setup.py
+
+
+4. Check CHANGES and TODO
+-------------------------
+
+- Ensure that all changes are recorded, and removed from TODO.
+- Ensure that the version number and release date are correct in CHANGES.
+
+
+5. Do a clean ant build
+-----------------------
+
+    ant clean package
+
+
+6. Generate and Check Documentation
+-----------------------------------
+
+Generate the doco:
+
+    bin/buildDoco.sh
+    open target/docs/html/index.html
+
+Review, and ensure that there are no errors building, and no changes necessary.
+
+Regenerate the SourceForge home page:
+
+    bin/buildHomepage.sh
+    open target/docs/homepage/index.html
+
+Review, and ensure there are no problems, and no changes required.
+
+Check all links (should be warnings about no robots for forums):
+
+    linkchecker --ignore-url=target/docs/html/api docs/output/html/index.html
+    linkchecker --ignore-url=target/docs/homepage/docs/api docs/output-sf/index.html
+
+Check the SF homepage for valid HTML, e.g. using the w3 validator (currently complains about border and align attributes).
+
+To change the overview.svg diagram, use Inkscape, and:
+
+    - Export Bitmap
+    - Select 'Drawing' tab page
+    - Save as overview.png, at about 90dpi
+
+
+7. Check in git for modifications
+----------------------------------------
+
+    git status
+    git commit -a
+
+NOTE: If you're on a branch, make sure you merge the branch back to master:
+
+    git branch              # to get the branch name
+    git checkout master
+    git merge the-branch-name
+
+
+8. Package the build
+----------------------------
+
+    bin/package.sh
+
+The zip file is in the target/package directory.
+
+
+9. Test the build
+-----------------
+
+    bin/installForTest.sh 0.5.9
+
+This will unpack the install package under target/install-test/clichart-$version, and will install it in a python virtualenv under that directory.
+Execute the commands listed at the end of the script output to test it, e.g.
+ 
+   . target/install-test/clichart-0.5.9/virtualenv/bin/activate
+   easy_install target/install-test/clichart-0.5.9/clichart-0.5.9/clichart-0.5.9.egg
+   bin/testInstall.py
+   deactivate
+
+Close the interactive charts as they come up.  Expect lots of OKs and some echos on the terminal, plus some stderr: echos.
+
+Charts will be saved under target/install-test/output.  You should now eyeball the charts produced, using an appropriate image viewer, e.g.
+
+    gwenview target/install-test/output    # or gqview, or ...
+
+Also:
+- Check doco
+
+    linkchecker --ignore-url=target/install-test/clichart-0.5.9/clichart-0.5.9/docs/html/api 
+    linkchecker --ignore-url=target/install-test/clichart-0.5.9/clichart-0.5.9/docs/html/index.html
+
+
+
+10. Tag in Git, and push to Github
+----------------------------------
+
+    git tag 0.5.9
+    git push -u origin master
+
+
+11. Upload to SourceForge
+-------------------------
+
+a. Upload the binary to SF
+    - via clichart page
+        - select Files
+        - go to CLIChart folder
+        - create a folder named e.g. 0.5.9
+        - upload the binary release, CHANGES.txt, and README.txt
+        - Set the binary zip as the default for all platforms, by clicking on the 'i' button
+b. Use bin/uploadDoco.sh to regenerate and upload all the doco to SF
+   - Then go to project home page, and check
+
+c. Do a news release message
+    - Go to Develop | News, copy the last release, then click on Submit
+    - NOTE: No HTML other than links!
+
+REQUIREMENTS FOR DEVELOPMENT
+============================
+- Running unit tests individually
+    Just execute the script.  Can also pass in class name or class name.method name (example todo)

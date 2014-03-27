@@ -1,0 +1,8 @@
+- Open overview.svg in Inkscape
+- Use File|Export Bitmap to export full-size
+    - Export 'drawing'
+    - Set to 90dpi to get full-size
+    - to overview.png
+- Repeat for small version
+    - Set to 50dpi
+    - to overview-small.png

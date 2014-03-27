@@ -1,0 +1,104 @@
+# ===========================================================================
+# Test script for cliserver mode.  Based loosely on the testInstall.py script
+#
+# Should be run from the clichart install root directory, and assumes a directory
+# called target/install-test/output
+# ===========================================================================
+
+# =====================================================================================
+# Basic chart
+# =====================================================================================
+inputpath resource/samples/SystemTemps.csv
+outputpath target/install-test/output/SystemTemps-1-cli.png
+csv
+hasheader
+columnlist 0,1,2
+go
+
+# =====================================================================================
+# Set a timeout
+# =====================================================================================
+timeout 10
+
+# =====================================================================================
+# System temps with titles.  Note that this doesn't clear first
+# =====================================================================================
+title System temps with titles
+ytitle Degrees C
+outputpath target/install-test/output/SystemTemps-2-cli.png
+go
+
+# =====================================================================================
+# Temps/fan speeds with second axis.  Again, no clear, and short command names
+# Also overrides series titles
+# =====================================================================================
+t Temps/fan speeds with second axis, series titles
+columnlist2 3,4
+ytitle2 ROM
+outputpath target/install-test/output/SystemTemps-2xis-cli.png
+seriestitles First series, Second series
+seriestitles2 Third series, Fourth series
+go
+
+# =====================================================================================
+# Temps/fan speeds with second axis bar.  Cleared, and short command names
+# =====================================================================================
+clear
+inputpath resource/samples/SystemTemps.csv
+o target/install-test/output/SystemTemps-2axisbar-cli.png
+c
+f
+l 0,1,2
+t Temps/fan speeds with second axis bar
+y Degrees C
+columnlist2 3,4
+bar2
+ytitle2 RPM
+colours 0:cyan,2:ff00ff
+go
+
+# =====================================================================================
+# Temps/fan speeds with second axis bar and line embellishments
+# Also sets series titles for only first series on each axis
+# =====================================================================================
+o target/install-test/output/SystemTemps-2axisbarembellished-cli.png
+t Temps/fan speeds with second axis bar and line embellishments, half series titles
+datapoints
+lineweight 2
+lineweight2 5
+seriestitles First series
+seriestitles2 Third series
+go
+
+# =====================================================================================
+# IMPORTANT: This test must be immediately after a test with a second axis!
+# Test that after clearing, the second axis has gone
+# =====================================================================================
+debug-echo
+clear
+inputpath resource/samples/SystemTemps.csv
+o target/install-test/output/SystemTemps-clearaxis2-cli.png
+c
+f
+l 0,1,2
+t Ensure that second axis does not show after clear!!!
+go
+
+
+    # =====================================================================================
+    # Ensure that leading and trailing space is ignored, command case is ignored, and use text data
+    # Also ignore missing column
+    # =====================================================================================
+    cLeAr
+    inPUTPath resource/samples/SystemTemps.txt
+    outPUTPath target/install-test/output/SystemTemps-indent-cli.png
+    L 0,2,1,11
+    I
+    w 600
+    heiGHt 400
+    BAR
+    DateFormat HH:mm
+    GO
+
+
+quit

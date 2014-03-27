@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: net.sf.clichart.main.Main
+Class-Path: lib/commons-cli-1.0.jar lib/javacsv-2.0-java1.4.jar lib/jfreechart-1.0.5.jar lib/jcommon-1.0.9.jar
+

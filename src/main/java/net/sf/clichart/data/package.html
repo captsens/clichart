@@ -1,0 +1,27 @@
+<HTML>
+<BODY>
+
+This package contains classes for parsing tabular data from streams.
+
+<p>To use this package directly, you would: <ul>
+ <li>Create a {@link net.sf.clichart.data.LineParser} of the appropriate type for the
+     format of your data, i.e either a {@link net.sf.clichart.data.CsvLineParser} or a
+     {@link net.sf.clichart.data.WhiteSpaceLineParser}.  This is responsible
+     for splitting each line of your data into separate fields
+ <li>Create a suitable {@link net.sf.clichart.data.DataSink} implementation, which will receive
+     an event for each line parsed.  This is typically one of the ChartBuilder classes in the
+     {@link net.sf.clichart.data} package
+ <li>Create a {@link net.sf.clichart.data.DataParser} of the appropriate type for the format
+     of the fields, passing it the LineParser and DataSink you just created.
+     <br>The choices are {@link net.sf.clichart.data.TimeDataParser} (used when
+     the X axis of your chart will be a date, time or date/time) and
+     {@link net.sf.clichart.data.ValueDataParser}
+     (used when the X axis is a simple value, or when there is 'no' X value).
+ <li>Create a Reader for your data, and pass it to the {@link net.sf.clichart.data.DataParser#parse}
+     method on your DataParser.
+</ul>
+
+See the {@link net.sf.clichart.main} package for examples of using these classes.
+
+</BODY>
+</HTML>
