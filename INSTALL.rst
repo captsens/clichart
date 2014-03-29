@@ -3,7 +3,7 @@ Installing CLIChart - Quick Start Guide
 ========================================
 
 This is a quick and dirty guide to installing CLIChart.  You can find the full documentation in 
-``docs/txt/installation.txt`` (text) and ``docs/html/installation.html`` (HTML, surprisingly enough).
+``docs/txt/installation.rst`` (text) and ``docs/html/installation.html`` (HTML, surprisingly enough).
 
 Step 0: Make sure you have Java (e.g. version 7) and Python 2.x (e.g. 2.7) installed.
 

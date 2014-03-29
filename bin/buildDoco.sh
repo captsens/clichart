@@ -4,11 +4,13 @@
 # Build the HTML doco using sphinx, and the Javadoc, then copy all the files to target directory
 
 DOCS_DIR=resource/docs
+TEXT_DIR=$DOCS_DIR/source
 HTML_BUILD_DIR=$DOCS_DIR/build/html
 IMAGE_DIR=$DOCS_DIR/source/_static/images
 JAVADOC_BUILD_DIR=target/java/javadoc
 
 OUTPUT_DIR=target/docs
+TEXT_OUTPUT_DIR=$OUTPUT_DIR/text
 HTML_OUTPUT_DIR=$OUTPUT_DIR/html
 JAVADOC_OUTPUT_DIR=$OUTPUT_DIR/javadoc
 
@@ -20,6 +22,7 @@ if [ -d $OUTPUT_DIR ]; then
 fi
 echo "Creating output directory"
 mkdir -p $HTML_OUTPUT_DIR
+mkdir -p $TEXT_OUTPUT_DIR
 mkdir -p $JAVADOC_OUTPUT_DIR
 
 echo "Generating small images (if required)"
@@ -47,8 +50,9 @@ fi
 echo "Generating documentation in Spinx"
 (cd $DOCS_DIR; make html)
 
-echo "Copying html files"
+echo "Copying text and html files"
 cp -a $HTML_BUILD_DIR/* $HTML_OUTPUT_DIR
+cp -a $TEXT_DIR/*.rst $TEXT_OUTPUT_DIR
 
 echo "Generating and copying Javadoc"
 ant javadoc

@@ -1,11 +1,7 @@
 Move to github
 - Page on how to develop, including location of code
 - Set up release
-- Rename README to .rst (which github recognises)
-- Add links to github in doco (source, release, forums)
-- move homepage and docs to readthedocs
 - Wiki?
-- Forums?
 - Message on SF forums pointing to new locations
 
 - In aggregate, support percentage values (50, 90, 95, 99 etc.)

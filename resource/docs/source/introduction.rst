@@ -47,11 +47,6 @@ The project consists of the following tools:
 
     Tools in the CLIChart package - click for the full-sized diagram
 
-The CLIChart home page can be found at `http://clichart.sourceforge.net/ <http://clichart.sourceforge.net/>`_.
-It has links to the `CLIChart forums <http://sourceforge.net/p/clichart/discussion/>`_, which are
-a good place to ask questions and get answers, and to the `project download page
-<http://sourceforge.net/projects/clichart/files/>`_.
-
 **NOTE: CLIChart is no longer under active development.**
 
 
@@ -120,16 +115,6 @@ As well, you may not know in advance exactly what data you're looking for (typic
 investigating a system problem), so this tends to be an iterative process: use a command line
 to generate a chart, examine the chart, tweak the command line to extract better or different
 data, and repeat.
-
-
-Download and Forums
-===================
-
-CLIChart is hosted on SourceForge - you'll find
-`the project download page here <http://sourceforge.net/project/showfiles.php?group_id=185843>`_.
-
-SourceForge also has `the project forum pages <http://sourceforge.net/forum/?group_id=185843>`_,
-which are a great place to ask questions and find answers.
 
 
 Tool Documentation

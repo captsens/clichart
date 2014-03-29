@@ -141,7 +141,7 @@ function createPackageTree() {
     cp -a resource/samples/*.log $baseDir/samples
     
     # misc
-    cp CHANGES.txt README.txt LICENCE.txt INSTALL.txt $baseDir
+    cp CHANGES.rst README.rst LICENCE.rst INSTALL.rst $baseDir
     cp $eggDir/dist/*.egg $baseDir
 }
 
@@ -167,6 +167,7 @@ checkGitStatus
 
 checkUnitTests
 
+[ -d $PACKAGE_OUTPUT_DIR ] && rm -fR $PACKAGE_OUTPUT_DIR
 eggDir=$PACKAGE_OUTPUT_DIR/clichart-egg
 createEgg $eggDir
 

@@ -65,7 +65,7 @@ been modified - it will warn you of this, so make sure you add/commit the change
 
 Check all links (should be warnings about no robots for forums):
 
-    linkchecker --ignore-url=target/docs/html target/docs/javadoc
+    linkchecker target/docs/html target/docs/javadoc
 
 To change the overview.svg diagram, use Inkscape, and:
 
@@ -120,8 +120,8 @@ produced, using an appropriate image viewer, e.g.
 Also:
 - Check doco
 
-    linkchecker --ignore-url=target/install-test/clichart-0.5.9/clichart-0.5.9/docs/html/api 
-    linkchecker --ignore-url=target/install-test/clichart-0.5.9/clichart-0.5.9/docs/html/index.html
+    linkchecker target/install-test/clichart-0.5.9/clichart-0.5.9/docs/javadoc 
+    linkchecker target/install-test/clichart-0.5.9/clichart-0.5.9/docs/html/index.html
 
 
 

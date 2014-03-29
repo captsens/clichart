@@ -9,6 +9,12 @@ Version 0.5.9
 
 Issued 2014-03-25
 
+ * General
+
+    - Moved to github, with documentation hosted by readthedocs
+    - Changed documentation to use Sphinx
+    - General build improvements
+
  * clichart
 
     - Changed clichart.py launcher to work better on Windows, particularly quoting of command
