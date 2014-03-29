@@ -1,6 +1,6 @@
-============================
-Aggregate Tool Documentation
-============================
+=========
+aggregate
+=========
 
 .. contents::
 

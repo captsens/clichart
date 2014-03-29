@@ -31,9 +31,11 @@ Checklist prior to shipping a new version
 3. Update version number
 ------------------------
 
-In build.xml.
+Required in 3 places:
 
-Make sure it matches the version in setup.py
+- build.xml.
+- setup.py
+- resource/docs/source/conf.py
 
 
 4. Check CHANGES and TODO
@@ -57,22 +59,13 @@ Generate the doco:
     bin/buildDoco.sh
     open target/docs/html/index.html
 
-Review, and ensure that there are no errors building, and no changes necessary.
-
-Regenerate the home page:
-
-    bin/buildHomepage.sh
-    open target/docs/homepage/index.html
-
-Review, and ensure there are no problems, and no changes required.
+Review, and ensure that there are no errors building, and no changes necessary.  Note that
+the buildDoco script will generate new small (thumbnail) images of any PNG file that has
+been modified - it will warn you of this, so make sure you add/commit the changes to git!
 
 Check all links (should be warnings about no robots for forums):
 
-    linkchecker --ignore-url=target/docs/html/api target/docs/html/index.html
-    linkchecker --ignore-url=target/docs/homepage/docs/api target/docs/homepage/index.html
-
-Check the SF homepage for valid HTML, e.g. using the w3 validator (currently complains about
-border and align attributes).
+    linkchecker --ignore-url=target/docs/html target/docs/javadoc
 
 To change the overview.svg diagram, use Inkscape, and:
 

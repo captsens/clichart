@@ -1,5 +1,5 @@
 =====================
-CLIChart Installation
+Installing CLIChart
 =====================
 
 .. contents::

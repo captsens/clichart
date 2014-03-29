@@ -1,5 +1,5 @@
 =====================
-CLIChart Quick Start
+Quick Start Guide
 =====================
 
 .. contents::
@@ -10,7 +10,8 @@ CLIChart Quick Start
 Introduction
 ============
 
-This is the 'instant gratification' section.  I'll try to keep it short and pithy ;}
+In the immortal words of the Python README, "If you don't read instructions,
+congratulations on getting this far. :-)".
 
 Many of these examples use data in the ``samples`` directory.
 
@@ -52,9 +53,9 @@ example of the second mode of operation for clichart - interactive with pre-exis
 
 And the result is a window showing the following graph (click to see the full-size chart):
 
-.. image:: images/SystemTemps-1-small.png
+.. image:: _static/images/SystemTemps-1-small.png
     :align: center
-    :target: images/SystemTemps-1.png
+    :target: _static/images/SystemTemps-1.png
 
 Notes:
 
@@ -81,9 +82,9 @@ The extra options are the chart title (``-t``), a title for the Y axis (``-y``),
 filename for the generated chart (``-o``).  The current directory now contains a file called
 ``SystemTemps.png``, which looks like this:
 
-.. image:: images/SystemTemps-2-small.png
+.. image:: _static/images/SystemTemps-2-small.png
     :align: center
-    :target: images/SystemTemps-2.png
+    :target: _static/images/SystemTemps-2.png
 
 
 Management-Friendly Charts - The Second Axis
@@ -103,9 +104,9 @@ clichart support long forms, but the most common ones also have a short form, li
 
 And here's the result:
 
-.. image:: images/SystemTemps-2axis-small.png
+.. image:: _static/images/SystemTemps-2axis-small.png
     :align: center
-    :target: images/SystemTemps-2axis.png
+    :target: _static/images/SystemTemps-2axis.png
 
 
 Bar Charts
@@ -121,9 +122,9 @@ Let's turn the second axis in the previous example into a bar, by using the ``--
 
 And the result is:
 
-.. image:: images/SystemTemps-bar-small.png
+.. image:: _static/images/SystemTemps-bar-small.png
     :align: center
-    :target: images/SystemTemps-bar.png
+    :target: _static/images/SystemTemps-bar.png
 
 
 Other Embellishments
@@ -139,9 +140,9 @@ thicker lines: ::
 
 And here's the result:
 
-.. image:: images/SystemTemps-barembellished-small.png
+.. image:: _static/images/SystemTemps-barembellished-small.png
     :align: center
-    :target: images/SystemTemps-barembellished.png
+    :target: _static/images/SystemTemps-barembellished.png
 
 
 Charting Patterns in a Log File
@@ -171,9 +172,9 @@ we'll pipe the results to clichart to display ::
 
 And the result is a window showing the following graph (click to see the full-size chart):
 
-.. image:: images/SystemLog-1-small.png
+.. image:: _static/images/SystemLog-1-small.png
     :align: center
-    :target: images/SystemLog-1.png
+    :target: _static/images/SystemLog-1.png
 
 Notes:
 
@@ -252,9 +253,9 @@ So now we can feed this summary data into clichart to see what the system was re
 
 And the result is a window showing that the system was pretty busy from around 3:10 am:
 
-.. image:: images/SystemLog-2-small.png
+.. image:: _static/images/SystemLog-2-small.png
     :align: center
-    :target: images/SystemLog-2.png
+    :target: _static/images/SystemLog-2.png
 
 As you can see, there's nothing like a chart for showing patterns in data!
 
@@ -283,9 +284,9 @@ titles to make the clichart output prettier: ::
 
 And here's the result:
 
-.. image:: images/SystemLog-3-small.png
+.. image:: _static/images/SystemLog-3-small.png
     :align: center
-    :target: images/SystemLog-3.png
+    :target: _static/images/SystemLog-3.png
 
 Notes:
 
@@ -318,9 +319,9 @@ You can probably guess what it's for, from the name.  ::
 
 And here's the result:
 
-.. image:: images/SystemLog-4-small.png
+.. image:: _static/images/SystemLog-4-small.png
     :align: center
-    :target: images/SystemLog-4.png
+    :target: _static/images/SystemLog-4.png
 
 Notes:
 
@@ -428,9 +429,9 @@ case temperature and the case fan speed.  So let's try plotting the speed agains
 
 And here's the result:
 
-.. image:: images/SystemTemps-3-small.png
+.. image:: _static/images/SystemTemps-3-small.png
     :align: center
-    :target: images/SystemTemps-3.png
+    :target: _static/images/SystemTemps-3.png
 
 So it looks as if there is some sort of relationship, but it's not as smooth as we'd hoped (probably because
 of my dodgy data...).

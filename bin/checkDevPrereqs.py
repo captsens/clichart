@@ -18,17 +18,22 @@ class Problem(object):
         self.description = description
 
 # -------------------------------------------------------------------------------------
-def check(problems, title, checkArgs, description):
+def check(problems, title, checkArgs, description, returnCode=0):
     print 'Checking for: %s' % title
-    try:
-        output = check_output(checkArgs, stderr=STDOUT)
+    def succeed(output):
         message = '  ... OK'
         if output:
             message += ' (%s)' % output.splitlines()[0]
         print message
+    try:
+        output = check_output(checkArgs, stderr=STDOUT)
+        succeed(output)
     except CalledProcessError, e:
-        print '  ... Failed'
-        problems.append(Problem(title, 'Output: %s' % e.output))
+        if e.returncode == returnCode:
+            succeed(e.output)
+        else:
+            print '  ... Failed'
+            problems.append(Problem(title, 'Output: %s' % e.output, description))
 
 # -------------------------------------------------------------------------------------
 def checkCobertura(problems):
@@ -68,7 +73,7 @@ if __name__ == '__main__':
     check(problems, 'git', ['git', '--version'], 'Git version control system (http://git-scm.com/)')
     check(problems, 'javac', ['javac', '-version'], 'JavaJDK (Oracle, OpenJDK etc.)')
     check(problems, 'ant', ['ant', '-version'], 'Apache Ant build system (http://ant.apache.org/)')
-    check(problems, 'rst2html', ['rst2html', '--version'], 'Python docutils (http://docutils.sourceforge.net/)')
+    check(problems, 'sphinx-build', ['sphinx-build', '-h'], 'Sphinx documentation builder (http://sphinx-doc.org/)', 1)
     check(problems, 'linkchecker', ['linkchecker', '--version'], 'Linkchecker (http://linkchecker.sourceforge.net/)')
     checkCobertura(problems)
     check(problems, 'setuptools', ['python', '-c', 'import setuptools'],

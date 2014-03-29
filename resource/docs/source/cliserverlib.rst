@@ -1,6 +1,6 @@
-==================================
-Cliserverlib Library Documentation
-==================================
+============
+cliserverlib
+============
 
 .. contents::
 

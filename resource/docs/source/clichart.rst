@@ -1,6 +1,6 @@
-===========================
-Clichart Tool Documentation
-===========================
+========
+clichart
+========
 
 .. contents::
 

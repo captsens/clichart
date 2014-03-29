@@ -1,6 +1,6 @@
-================================
-Discretestats Tool Documentation
-================================
+=========
+linestats
+=========
 
 .. contents::
 
@@ -10,41 +10,36 @@ Discretestats Tool Documentation
 Introduction
 ============
 
-Discretestats is a Python script for generating summary statistics from
-lines of textual data containing a field with discrete values, such as a system log file.
-It is intended to by used to extract summary data from input, which is then piped to clichart for
+Linestats is a Python script for generating summary statistics from
+lines of textual data, such as a system log file.  It is intended to be used
+to extract summary data from input, which is then piped to clichart for
 graphical display.
 
-Discretestats is based on the idea of extracting a 'key' field and a 'value' field from each line
-of data.  The most common key field is a timestamp, while the value field can be anything that
-has discrete values.  The output can be thought of as a table - one row for each key field value, and
-one column for each value field value, with each cell containing the count that value and key.  A
-typical example is generating statistics on the number of error and warning messages in a system
-log per minute.
+Use linestats when you have more lines in the input than you need in the output data.
+Linestats provides various ways to summarise data that share the same 'key field'.
+All summary values (count, minimum, average, maximum etc.) are grouped based on the
+value of that key field.
 
-The differences between discretestats and linestats are:
+When parsing system logs, the most common use for linestats is to summarise data by time.
+In this case the key field is part or all of the timestamp in each log message - in this
+scenario, linestats will output one line of statistics (whichever statistics you choose)
+for each unique timestamp.
 
- * Any value fields in linestats must be numbers (since you're interested in averages, minima etc).
-   The field in discretestats can be anything (but it's usually a string)
- * Discretestats tells you how often each **distinct value** occurs for each key, whereas using a
-   count in linestats just shows how many times the key occurs
- * In linestats, you specify exactly the columns to be output.  In discretestats you don't
-   always know how many columns there will be, since there's a column for each discrete value.
-
-Discretestats can:
+Linestats can:
 
  * Accept data from stdin or from a file
  * Identify the key field based on whitespace-separated fields, a substring, or a regular
    expression
- * Accumulate counts for each discrete value in a single value field
- * Identify the value field based on whitespace-separated fields, a substring, or a regular
+ * Accumulate statistics for zero or more value fields
+ * Identify value fields based on whitespace-separated fields, a substring, or a regular
    expression
- * Output counts for discrete value in thevalue field, for each value
+ * Output counts for each value in the key field, e.g. for every unique timestamp
+ * Output minimum, average, maximum and/or total values for each value field, for each value
    in the key field, e.g. for every unique timestamp
  * Ignore input lines that do not contain a supplied regular expression
  * Sort the output by the key field
  * Output as comma-separated or whitespace-separated
- * Quote column headings and keys containing spaces and/or commas.
+ * Include a supplied column heading line in the output, for generating legends in clichart.
 
 
 Usage
@@ -52,7 +47,7 @@ Usage
 
 You use the tool like this::
 
-    discretestats.py [inputOptions] [outputOptions] [inputFile]
+    linestats.py [inputOptions] [outputOptions] [inputFile]
 
 If no input file is specified, reads from stdin.  Output is always to stdout.
 
@@ -68,15 +63,30 @@ Input Options:
                    space, 0-based
     r:<regex>      Extract key as a regular expression
  -m <regex>   Only include lines matching this regular expression
- -v <valuespec> Required.  Specifies a value for which to accumulate statistics
-              from each line.  valuespec may be substring, field or regex
-              as for -k option.
+ -v <valuespec> Specifies a value for which to accumulate statistics from each
+              line.  Zero or more.  valuespec must return a numeric value, and
+              may be:
+    s:<substring>  Extract value as a substring.  See Substrings
+    f:<index>      Extract value as a field.  Fields are separated by white
+                   space, 0-based
+    r:<regex>      Extract value as a regular expression
 
 Output Options:
 ---------------
 ::
 
  -c           Output as CSV (default is whitespace-separated)
+ -f <line>    Output this line first, as the headers for the columns
+ -l <columns> A comma-separated ordered list of columns to include in the
+              output (default is 'k,k:cnt').  The field index is the 0-based
+              number of the field in the list of -v options, i.e. field number
+              0 is the field specified by the first -v option.  Columns may be:
+    k         The key
+    k:cnt     The count for the key
+    0:av      The average of field '0'
+    0:min     The minimum of field '0'
+    0:max     The maximum of field '0'
+    0:tot     The total of field '0'
  -s           Sort output by key column
 
 Other Options:
@@ -94,7 +104,7 @@ Substrings are specified by one or two indexes into the line.
  * Substring indexes must be separated by a colon (:)
  * The substring is taken from the first index (inclusive) to the second index
    (exclusive)
- * Each is index is 0-based (i.e. numbers from 0)
+ * Each index is 0-based (i.e. numbers from 0)
  * Negative indexes count from the end of the line, i.e. -1 refers to the last
    character in the line
  * If no second index is given, the substring is taken from the first index to
@@ -117,7 +127,7 @@ Regular expressions follow the Perl 5 syntax as implemented by Python (NOT grep/
 difference is that the `*` and `+` operators are greedy by default - if you
 want the egrep behaviour, append `?` to them, e.g. change `ab.*yz` to
 `ab.*?yz`.  See
-`the Python regular expression documentation <http://docs.python.org/library/re.html#re-syntax>`_
+`the Python regular expression documentation <http://docs.python.org/2/library/re.html>`_
 for full information.
 
 When the regex is used to extract a value, if it contains a bracketed group the
@@ -138,7 +148,7 @@ Examples (with 'r:' prefix): ::
 
 Notes:
 ======
- * Discretestats requires Python - see `the installation page <installation.html>`_
+ * Linestats requires Python - see `the installation page <installation.html>`_
 
 
 Examples

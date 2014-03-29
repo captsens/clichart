@@ -15,6 +15,7 @@
 ANT_BUILD_FILE=build.xml
 
 SETUP_PY_FILE=setup.py
+SPHINX_CONFIG_FILE=resource/docs/source/conf.py
 
 PACKAGE_OUTPUT_DIR=target/package
 
@@ -63,6 +64,20 @@ function checkVersionNumber() {
             | sed -e 's/^[^"]*"//' -e 's/".*//'`
     if [ "$versionNum" != "$setupVersionNum" ]; then
         echo "Version number ($setupVersionNum) does not match in file $SETUP_PY_FILE"
+        exit
+    fi
+
+    # Check $versionNum against Sphinx version numbers (x 2)
+    sphinxVersionNum=`egrep "^ *version ?=" $SPHINX_CONFIG_FILE \
+            | sed -e "s/^[^']*'//" -e "s/'.*//"`
+    if [ "$versionNum" != "$sphinxVersionNum" ]; then
+        echo "Version number ($sphinxVersionNum) does not match in file $SPHINX_CONFIG_FILE"
+        exit
+    fi
+    sphinxReleaseNum=`egrep "^ *release ?=" $SPHINX_CONFIG_FILE \
+            | sed -e "s/^[^']*'//" -e "s/'.*//"`
+    if [ "$versionNum" != "$sphinxReleaseNum" ]; then
+        echo "Release number ($sphinxReleaseNum) does not match in file $SPHINX_CONFIG_FILE"
         exit
     fi
 }

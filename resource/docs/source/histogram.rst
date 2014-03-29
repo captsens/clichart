@@ -1,6 +1,6 @@
-============================
-Histogram Tool Documentation
-============================
+=========
+histogram
+=========
 
 .. contents::
 
