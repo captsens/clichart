@@ -2,11 +2,6 @@
 clichart
 ========
 
-.. contents::
-
-`Return to main CLIChart documentation page <index.html>`_.
-
-
 Introduction
 ============
 
