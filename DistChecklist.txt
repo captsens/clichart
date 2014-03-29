@@ -129,19 +129,16 @@ Also:
 -----------------------------------------
 
     git tag 0.5.9
-    git push -u origin master
+    git push -u --tags origin master
 
 
 11. Create release in Github
 ----------------------------
 
-Details TODO - no idea how this works yet...
-
-12. Upload to SourceForge
--------------------------
-
-Use bin/uploadDoco.sh to regenerate and upload all the doco to SF
-   - Then go to project home page, and check
-
+- Go to Release tab
+- Click Draft a new release
+- Select tag
+- Enter most recent part of changelog, and check that it previews OK
+- Click to upload the zip file (from target/package)
 
 

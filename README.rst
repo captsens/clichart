@@ -11,22 +11,22 @@ and can come from a file or be piped in.
 
 2. Installation
 ===============
-See docs/txt/installation.txt or docs/html/installation.html.
+See docs/text/installation.rst or docs/html/installation.html.
 
 
 3. Documentation
 ================
-See docs/txt/index.txt or docs/html/index.html.  In particular, the Quick Start
-guide (docs/txt/quickstart.txt or docs/html/quickstart.html) is a good jumping-off
+See docs/text/index.rst or docs/html/index.html.  In particular, the Quick Start
+guide (docs/text/quickstart.rst or docs/html/quickstart.html) is a good jumping-off
 point.
 
 
 4. Licence
 ==========
 clichart is licensed under the GNU Lesser (or Library) General Public Licence -
-see the LICENCE.txt file.
+see the LICENCE.rst file.
 
 
 5. Development
 ==============
-See docs/txt/development.txt or docs/html/development.html for details.
+See docs/text/development.rst or docs/html/development.html for details.
