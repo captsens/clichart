@@ -25,3 +25,8 @@ point.
 ==========
 clichart is licensed under the GNU Lesser (or Library) General Public Licence -
 see the LICENCE.txt file.
+
+
+5. Development
+==============
+See docs/txt/development.txt or docs/html/development.html for details.

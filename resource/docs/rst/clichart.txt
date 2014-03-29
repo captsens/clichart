@@ -111,7 +111,7 @@ Date Formats
 
 The data format (-d option) uses format strings specified by Java's SimpleDateFormat
 (see `the specification table here
-<http://java.sun.com/j2se/1.5.0/docs/api/java/text/SimpleDateFormat.html>`_).
+<http://docs.oracle.com/javase/1.5.0/docs/api/java/text/SimpleDateFormat.html>`_).
 
 The most common format string elements are:
 

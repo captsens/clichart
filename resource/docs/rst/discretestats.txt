@@ -117,7 +117,7 @@ Regular expressions follow the Perl 5 syntax as implemented by Python (NOT grep/
 difference is that the `*` and `+` operators are greedy by default - if you
 want the egrep behaviour, append `?` to them, e.g. change `ab.*yz` to
 `ab.*?yz`.  See
-`the Python regular expression documentation <http://docs.python.org/lib/re-syntax.html>`_
+`the Python regular expression documentation <http://docs.python.org/library/re.html#re-syntax>`_
 for full information.
 
 When the regex is used to extract a value, if it contains a bracketed group the

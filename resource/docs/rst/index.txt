@@ -55,9 +55,9 @@ The project consists of the following tools:
 
 
 The CLIChart home page can be found at `http://clichart.sourceforge.net/ <http://clichart.sourceforge.net/>`_.
-It has links to the `CLIChart forums <http://sourceforge.net/forum/?group_id=185843>`_, which are
+It has links to the `CLIChart forums <http://sourceforge.net/p/clichart/discussion/>`_, which are
 a good place to ask questions and get answers, and to the `project download page
-<http://sourceforge.net/project/showfiles.php?group_id=185843>`_.
+<http://sourceforge.net/projects/clichart/files/>`_.
 
 **NOTE: CLIChart is no longer under active development.**
 
@@ -263,7 +263,7 @@ CLIChart uses several great open source libraries to do its job:
 
  * The amazing `JFreeChart <http://www.jfree.org/jfreechart/>`_, to generate and display the charts
    (LGPL)
- * The `Apache Commons CLI library <http://jakarta.apache.org/commons/cli/>`_, for parsing the
+ * The `Apache Commons CLI library <http://commons.apache.org/proper/commons-cli/>`_, for parsing the
    command-line arguments (Apache licence)
  * The `JavaCSV <http://www.csvreader.com/>`_ library for parsing CSV data (LGPL).
 

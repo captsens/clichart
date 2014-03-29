@@ -18,7 +18,7 @@ Many of these examples use data in the ``samples`` directory.
 Installation
 ============
 
- 1. Make sure you have `Java <http://java.sun.com/javase/downloads/index.jsp>`_ installed
+ 1. Make sure you have `Java <http://www.oracle.com/technetwork/java/javase/downloads/index.html>`_ installed
  2. If you want to use the data summarisation tools (``linestats``, ``discretestats`` and ``mid``), make
     sure you have `Python <http://www.python.org/>`_ installed
  3. Extract the CLIChart zip file to a suitable directory

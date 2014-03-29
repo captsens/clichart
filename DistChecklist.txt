@@ -17,6 +17,8 @@ Checklist prior to shipping a new version
 - Check that no tests failed
 - Check that the unit test coverage looks OK.  Note that coverage-marked versions
   of source files are in target/python/coverage
+- If ant shows errors (path not found etc.), you may need to override paths in a 
+  build.properties file in the top-level directory.
 
 
 2. Check test coverage
@@ -57,7 +59,7 @@ Generate the doco:
 
 Review, and ensure that there are no errors building, and no changes necessary.
 
-Regenerate the SourceForge home page:
+Regenerate the home page:
 
     bin/buildHomepage.sh
     open target/docs/homepage/index.html
@@ -66,10 +68,11 @@ Review, and ensure there are no problems, and no changes required.
 
 Check all links (should be warnings about no robots for forums):
 
-    linkchecker --ignore-url=target/docs/html/api docs/output/html/index.html
-    linkchecker --ignore-url=target/docs/homepage/docs/api docs/output-sf/index.html
+    linkchecker --ignore-url=target/docs/html/api target/docs/html/index.html
+    linkchecker --ignore-url=target/docs/homepage/docs/api target/docs/homepage/index.html
 
-Check the SF homepage for valid HTML, e.g. using the w3 validator (currently complains about border and align attributes).
+Check the SF homepage for valid HTML, e.g. using the w3 validator (currently complains about
+border and align attributes).
 
 To change the overview.svg diagram, use Inkscape, and:
 
@@ -104,7 +107,8 @@ The zip file is in the target/package directory.
 
     bin/installForTest.sh 0.5.9
 
-This will unpack the install package under target/install-test/clichart-$version, and will install it in a python virtualenv under that directory.
+This will unpack the install package under target/install-test/clichart-$version, and will
+install it in a python virtualenv under that directory.
 Execute the commands listed at the end of the script output to test it, e.g.
  
    . target/install-test/clichart-0.5.9/virtualenv/bin/activate
@@ -112,9 +116,11 @@ Execute the commands listed at the end of the script output to test it, e.g.
    bin/testInstall.py
    deactivate
 
-Close the interactive charts as they come up.  Expect lots of OKs and some echos on the terminal, plus some stderr: echos.
+Close the interactive charts as they come up.  Expect lots of OKs and some echos on the
+terminal, plus some stderr: echos.
 
-Charts will be saved under target/install-test/output.  You should now eyeball the charts produced, using an appropriate image viewer, e.g.
+Charts will be saved under target/install-test/output.  You should now eyeball the charts
+produced, using an appropriate image viewer, e.g.
 
     gwenview target/install-test/output    # or gqview, or ...
 
@@ -126,31 +132,23 @@ Also:
 
 
 
-10. Tag in Git, and push to Github
-----------------------------------
+10. Tag in Git, and push source to Github
+-----------------------------------------
 
     git tag 0.5.9
     git push -u origin master
 
 
-11. Upload to SourceForge
+11. Create release in Github
+----------------------------
+
+Details TODO - no idea how this works yet...
+
+12. Upload to SourceForge
 -------------------------
 
-a. Upload the binary to SF
-    - via clichart page
-        - select Files
-        - go to CLIChart folder
-        - create a folder named e.g. 0.5.9
-        - upload the binary release, CHANGES.txt, and README.txt
-        - Set the binary zip as the default for all platforms, by clicking on the 'i' button
-b. Use bin/uploadDoco.sh to regenerate and upload all the doco to SF
+Use bin/uploadDoco.sh to regenerate and upload all the doco to SF
    - Then go to project home page, and check
 
-c. Do a news release message
-    - Go to Develop | News, copy the last release, then click on Submit
-    - NOTE: No HTML other than links!
 
-REQUIREMENTS FOR DEVELOPMENT
-============================
-- Running unit tests individually
-    Just execute the script.  Can also pass in class name or class name.method name (example todo)
+
