@@ -1,4 +1,6 @@
-                            --== clichart ==--
+==============================================
+CLIChart - Visualisation from the command line
+==============================================
 
 1. Introduction
 ===============
