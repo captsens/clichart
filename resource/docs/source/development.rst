@@ -53,7 +53,7 @@ Building
     made to work on Windows under Cygwin, but you'll probably have quite a bit of work 
     to do if you try to do it on Windows directly...
 
-The quick version:
+The quick version: ::
 
     # start in the project's root directory
     gradle dist                 # builds and zips everything
