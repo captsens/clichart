@@ -5,10 +5,7 @@ Unit tests for linestats.py
 """
 
 import unittest
-import testUtils
 from StringIO import StringIO
-
-testUtils.checkPythonPath('linestats')
 from linestats import *
 import statslib
 

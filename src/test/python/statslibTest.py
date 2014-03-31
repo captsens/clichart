@@ -5,10 +5,7 @@ Unit tests for statslib
 """
 
 import unittest
-import testUtils
 from StringIO import StringIO
-
-testUtils.checkPythonPath('statslib')
 from statslib import *
 
 TEST_LINE = 'abcdef'

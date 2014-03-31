@@ -5,10 +5,7 @@ Unit tests for aggregate.py
 """
 
 import unittest
-import testUtils
 from StringIO import StringIO
-
-testUtils.checkPythonPath('aggregate')
 from aggregate import *
 import statslib
 

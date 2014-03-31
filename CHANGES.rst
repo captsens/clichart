@@ -4,6 +4,16 @@ Changes to CLIChart
 
 This file documents the changes made in each release of CLIChart.
 
+Version 0.6.0a1
+---------------
+
+Issued not-yet-released
+
+ * General
+
+    - Converted build scripts to gradle
+
+
 Version 0.5.9
 ---------------
 

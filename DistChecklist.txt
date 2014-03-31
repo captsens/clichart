@@ -5,67 +5,56 @@ Checklist prior to shipping a new version
 0. Check prerequisites
 ----------------------
 
-    bin/checkDevPrereqs.py
+Check off the tools listed in /resource/docs/source/development.rst.
     
 
-1. Run all unit tests
----------------------
+1. Run all unit tests, and check code coverage
+----------------------------------------------
 
-    ant run-tests
-    src/test/python/runCoverage.sh
+    gradle coverage
+    open build/reports/javaCoverage/index.html
+    open build/reports/pythonCoverage/index.html
 
 - Check that no tests failed
-- Check that the unit test coverage looks OK.  Note that coverage-marked versions
-  of source files are in target/python/coverage
-- If ant shows errors (path not found etc.), you may need to override paths in a 
-  build.properties file in the top-level directory.
+- Check that the unit test coverage looks OK
 
 
-2. Check test coverage
-----------------------
-
-    ant clean coverage
-    open target/java/coverage-report/index.html
-
-
-3. Update version number
+2. Update version number
 ------------------------
 
 Required in 3 places:
 
-- build.xml.
-- setup.py
-- resource/docs/source/conf.py
+- build.gradle.
+- setup.py (will be done automatically during packaging, just in case)
+- resource/docs/source/conf.py (build will fail if not in sync)
 
 
-4. Check CHANGES and TODO
+3. Check CHANGES and TODO
 -------------------------
 
 - Ensure that all changes are recorded, and removed from TODO.
 - Ensure that the version number and release date are correct in CHANGES.
 
 
-5. Do a clean ant build
------------------------
+4. Do a clean distribution build
+--------------------------------
 
-    ant clean package
+    gradle clean dist
 
 
-6. Generate and Check Documentation
------------------------------------
+5. Check Documentation
+----------------------
 
-Generate the doco:
-
-    bin/buildDoco.sh
-    open target/docs/html/index.html
+    open resource/docs/build/html/index.html
+    open build/docs/javadoc/index.html
 
 Review, and ensure that there are no errors building, and no changes necessary.  Note that
-the buildDoco script will generate new small (thumbnail) images of any PNG file that has
-been modified - it will warn you of this, so make sure you add/commit the changes to git!
+the build script will generate new small (thumbnail) images of any PNG file that has
+been modified - check for any changes afterwards.
 
 Check all links (should be warnings about no robots for forums):
 
-    linkchecker target/docs/html target/docs/javadoc
+    linkchecker resource/docs/build/html/index.html
 
 To change the overview.svg diagram, use Inkscape, and:
 
@@ -74,7 +63,7 @@ To change the overview.svg diagram, use Inkscape, and:
     - Save as overview.png, at about 90dpi
 
 
-7. Check in git for modifications
+6. Check in git for modifications
 ----------------------------------------
 
     git status
@@ -87,52 +76,37 @@ NOTE: If you're on a branch, make sure you merge the branch back to master:
     git merge the-branch-name
 
 
-8. Package the build
-----------------------------
-
-    bin/package.sh
-
-The zip file is in the target/package directory.
-
-
-9. Test the build
+7. Test the build
 -----------------
 
-    bin/installForTest.sh 0.5.9
-
-This will unpack the install package under target/install-test/clichart-$version, and will
-install it in a python virtualenv under that directory.
-Execute the commands listed at the end of the script output to test it, e.g.
- 
-   . target/install-test/clichart-0.5.9/virtualenv/bin/activate
-   easy_install target/install-test/clichart-0.5.9/clichart-0.5.9/clichart-0.5.9.egg
-   bin/testInstall.py
-   deactivate
+    gradle installForTest
+    . build/install-test/virtualenv/bin/activate
+    bin/testInstall.py
+    deactivate
 
 Close the interactive charts as they come up.  Expect lots of OKs and some echos on the
 terminal, plus some stderr: echos.
 
-Charts will be saved under target/install-test/output.  You should now eyeball the charts
+Charts will be saved under build/install-test/output.  You should now eyeball the charts
 produced, using an appropriate image viewer, e.g.
 
-    gwenview target/install-test/output    # or gqview, or ...
+    gwenview build/install-test/output    # or gqview, or ...
 
-Also:
-- Check doco
+Also, check the doco:
 
-    linkchecker target/install-test/clichart-0.5.9/clichart-0.5.9/docs/javadoc 
-    linkchecker target/install-test/clichart-0.5.9/clichart-0.5.9/docs/html/index.html
-
+    open build/install-test/clichart-0.5.9/docs/html/index.html
+    open build/install-test/clichart-0.5.9/docs/javadoc/index.html
 
 
-10. Tag in Git, and push source to Github
+
+8. Tag in Git, and push source to Github
 -----------------------------------------
 
     git tag 0.5.9
     git push -u --tags origin master
 
 
-11. Create release in Github
+9. Create release in Github
 ----------------------------
 
 - Go to Release tab
@@ -142,3 +116,7 @@ Also:
 - Click to upload the zip file (from target/package)
 
 
+10. Check the docs on readthedocs.org
+-------------------------------------
+
+Should be rebuilt automatically based on webhook from github.

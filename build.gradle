@@ -1,0 +1,234 @@
+// TODO: Allow nosetests path to be sourced from properties (for override of exe name)
+// TODO: checkDevPrereqs should check for nosetests, not coverage
+// TODO: Sphinx build has images dir in 2 places...
+// TODO: run install tests (?)
+
+apply plugin: 'java'
+apply plugin: 'jacoco'
+
+version = '0.6.0a1'
+
+group = 'clichart'
+
+sourceCompatibility = 1.5
+targetCompatibility = 1.5
+
+project.ext.pythonScriptDir = file("src/main/python")
+project.ext.docsDir = file('resource/docs')
+project.ext.docsSourceDir = file("$docsDir/source")
+project.ext.docsImageDir = file("$docsSourceDir/_static/images")
+project.ext.docsBuildDir = file("$docsDir/build")
+project.ext.eggDir = file("$buildDir/egg")
+project.ext.eggDistDir = file("$eggDir/dist")
+project.ext.libsDir = file("$buildDir/libs")
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'jfree:jfreechart:1.0.5'
+    compile 'net.sourceforge.javacsv:javacsv:2.0'
+    testCompile 'junit:junit:4.+'
+    testCompile 'easymock:easymock:1.1'
+    // to prevent junit, commons-lang and commons-logging being brought in...
+    compile module('commons-cli:commons-cli:1.0') {
+        transitive = false
+    }
+}
+
+jar {
+    version project.version
+    manifest {
+        attributes(
+            'Main-Class': 'net.sf.clichart.main.Main',
+            'Class-Path': configurations.runtime.collect { 'lib/' + it.getName() }.join(' ')
+        )
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "$buildDir/reports/javaCoverage"
+    }
+}
+
+task pythonTests << {
+    runPythonTests(false)
+}
+
+task pythonCoverage << {
+    runPythonTests(true)
+}
+
+def runPythonTests(def includeCoverage) {
+    def sourceFiles = fileTree(pythonScriptDir).include('**/*.py')
+    def testFiles = fileTree('src/test/python').include('**/*Test.py')
+    def pythonCoverageDir = file("$buildDir/reports/pythonCoverage")
+
+    def arguments = []
+    if (includeCoverage) {
+        arguments = ['--with-coverage', '--cover-erase', '--cover-html', '--cover-html-dir', \
+                pythonCoverageDir]
+        delete(pythonCoverageDir)
+        logger.lifecycle "Coverage report can be found in $pythonCoverageDir"
+    } 
+    exec {
+        executable = "nosetests"
+        args = arguments + testFiles.collect{it.getPath()}
+        environment = ['PYTHONPATH': pythonScriptDir]
+    }
+}
+
+task coverage(dependsOn: [jacocoTestReport, pythonCoverage]) {}
+
+task updateImageThumbnails << {
+    def thumbnailsUpdated = false
+    fileTree(docsImageDir).include('**/*.png').exclude('**/*-small.png')\
+            .each{pngFile ->
+        def thumbName = file(new File(pngFile.parentFile, 
+                pngFile.name.replaceFirst('.png', '-small.png')))
+        if (!thumbName.exists() || pngFile.lastModified() > thumbName.lastModified()) {
+            logger.lifecycle("Creating/updating image thumbnail in source: $thumbName")
+            exec {
+                executable = "convert"
+                args = [pngFile, '-resize', '50%', '-depth', '8', thumbName]
+            }
+            thumbnailsUpdated = true
+        }
+    }
+    if (thumbnailsUpdated) {
+        logger.warn('Thumbnail images created/updated - make sure you update git!')
+    }
+}
+
+task checkDocsVersion << {
+    file("$docsSourceDir/conf.py").getText().readLines().each {String line ->
+        def match = line =~ /^\s*(version|release)\s*=\s*["'](.*?)["'].*/
+        if (match.matches() && match[0][2] != version) {
+            throw new GradleException("Error in $docsSourceDir/conf.py: version and release " \
+                + "numbers must match version number in build.gradle ($version)")
+        }
+    }
+}
+
+task docs(dependsOn: [javadoc, updateImageThumbnails, checkDocsVersion]) {
+    doLast {
+        exec {
+            executable = "make"
+            workingDir = docsDir
+            args = ['html']
+        }
+    }
+}
+
+task libs(type: Copy) {
+    from configurations.runtime
+    into "$libsDir/lib"
+}
+
+task setupPy(type: Copy) {
+    description 'Copies setup.py to the egg dir, and sets the version number'
+    from 'setup.py'
+    filter { String line ->
+        if (line =~ /^ *version *= *"[^"]+",.*/) {
+            return '    version = "' + version + '",'
+        } else {
+            return line
+        }
+    }
+    into eggDir
+}
+
+task egg(dependsOn: [build, libs, setupPy]) {
+    def eggContentDir = file("$eggDir/clichart")
+    doLast {
+        copy {
+            from libsDir
+            from pythonScriptDir
+            include '**/*.jar'
+            include '**/*.py'    
+            into eggContentDir
+        }
+        exec {
+            executable = "python"
+            workingDir = eggDir
+            args = ['setup.py', 'bdist_egg']
+        }
+        // Remove python version number from egg, so that it works on all versions of python
+        fileTree(eggDistDir).include("clichart-$version-*.egg").each {File f ->
+            f.renameTo(file("$eggDistDir/clichart-${version}.egg"))
+        }
+    }
+}
+
+task dist(type: Zip, dependsOn: [build, egg, docs]) {
+    def baseDir = "/$project.name-$version"
+    into(baseDir) {
+        from eggDistDir
+    }
+    into(baseDir) {
+        from projectDir 
+        include '*.rst'
+        exclude 'TODO.*'
+    }
+    into("$baseDir/samples") {
+        from 'resource/samples'
+        include '*.csv'
+        include '*.txt'
+        include '*.log'
+    }
+    into("$baseDir/docs/html") {
+        from "$docsBuildDir/html"
+    }
+    into("$baseDir/docs/txt") {
+        from docsSourceDir
+        include '*.rst'
+    }
+    into("$baseDir/docs/api") {
+        from "$buildDir/docs/javadoc"
+    }
+    doLast {
+        println ""
+        println "---=== Don't forget to tag in git! ===---"
+    }
+}
+
+task cleanVirtualEnv << {
+    // gradle doesn't understand about deleting directory symlinks, so fails to remove virtualenv
+    def virtualEnv = file("$buildDir/install-test/virtualenv")
+    if (virtualEnv.isDirectory()) {
+        exec {
+            commandLine = ['rm', '-fR', virtualEnv]
+        }
+    }
+}
+clean.dependsOn(cleanVirtualEnv)
+
+task installForTest(dependsOn: dist) {
+    doLast {
+        def installDir = "$buildDir/install-test"
+        copy {
+            from zipTree("$buildDir/distributions/$project.name-${version}.zip")
+            into installDir
+        }
+        def virtualEnv = "$installDir/virtualenv"
+        exec {
+            executable = 'virtualenv'
+            args = [virtualEnv]
+        }
+        exec {
+            executable = "$installDir/virtualenv/bin/easy_install"
+            args = ["$installDir/$project.name-${version}/$project.name-${version}.egg"]
+        }
+        println """
+        CLIChart has been installed in a virtual python environment in $installDir/virtualenv
+        
+        You should now do the following to test it:
+            . $installDir/virtualenv/bin/activate
+            bin/testInstall.py
+            deactivate"""
+    }
+}

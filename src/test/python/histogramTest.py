@@ -9,10 +9,7 @@ TODO:
 """
 
 import unittest
-import testUtils
 from StringIO import StringIO
-
-testUtils.checkPythonPath('histogram')
 from histogram import *
 from statslib import InvalidDataException
 

@@ -5,9 +5,6 @@ Unit tests for mid.py
 """
 
 import unittest
-import testUtils
-
-testUtils.checkPythonPath('mid')
 from mid import *
 
 # ============================================================================

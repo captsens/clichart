@@ -7,7 +7,7 @@ on (and test) Linux, Cygwin and base Windows.
 
 import sys, os, shutil, getopt, time
 
-OUTPUT_DIR = 'target/install-test/output'
+OUTPUT_DIR = 'build/install-test/output'
 SAMPLES_DIR = 'resource/samples'
 CLI_SERVER_SCRIPT = os.path.join(os.path.dirname(__file__), '../src/test/system/cliserverScript.txt')
 

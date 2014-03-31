@@ -2,14 +2,14 @@
 # Test script for cliserver mode.  Based loosely on the testInstall.py script
 #
 # Should be run from the clichart install root directory, and assumes a directory
-# called target/install-test/output
+# called build/install-test/output
 # ===========================================================================
 
 # =====================================================================================
 # Basic chart
 # =====================================================================================
 inputpath resource/samples/SystemTemps.csv
-outputpath target/install-test/output/SystemTemps-1-cli.png
+outputpath build/install-test/output/SystemTemps-1-cli.png
 csv
 hasheader
 columnlist 0,1,2
@@ -25,7 +25,7 @@ timeout 10
 # =====================================================================================
 title System temps with titles
 ytitle Degrees C
-outputpath target/install-test/output/SystemTemps-2-cli.png
+outputpath build/install-test/output/SystemTemps-2-cli.png
 go
 
 # =====================================================================================
@@ -35,7 +35,7 @@ go
 t Temps/fan speeds with second axis, series titles
 columnlist2 3,4
 ytitle2 ROM
-outputpath target/install-test/output/SystemTemps-2xis-cli.png
+outputpath build/install-test/output/SystemTemps-2xis-cli.png
 seriestitles First series, Second series
 seriestitles2 Third series, Fourth series
 go
@@ -45,7 +45,7 @@ go
 # =====================================================================================
 clear
 inputpath resource/samples/SystemTemps.csv
-o target/install-test/output/SystemTemps-2axisbar-cli.png
+o build/install-test/output/SystemTemps-2axisbar-cli.png
 c
 f
 l 0,1,2
@@ -61,7 +61,7 @@ go
 # Temps/fan speeds with second axis bar and line embellishments
 # Also sets series titles for only first series on each axis
 # =====================================================================================
-o target/install-test/output/SystemTemps-2axisbarembellished-cli.png
+o build/install-test/output/SystemTemps-2axisbarembellished-cli.png
 t Temps/fan speeds with second axis bar and line embellishments, half series titles
 datapoints
 lineweight 2
@@ -77,7 +77,7 @@ go
 debug-echo
 clear
 inputpath resource/samples/SystemTemps.csv
-o target/install-test/output/SystemTemps-clearaxis2-cli.png
+o build/install-test/output/SystemTemps-clearaxis2-cli.png
 c
 f
 l 0,1,2
@@ -91,7 +91,7 @@ go
     # =====================================================================================
     cLeAr
     inPUTPath resource/samples/SystemTemps.txt
-    outPUTPath target/install-test/output/SystemTemps-indent-cli.png
+    outPUTPath build/install-test/output/SystemTemps-indent-cli.png
     L 0,2,1,11
     I
     w 600

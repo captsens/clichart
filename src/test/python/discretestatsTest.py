@@ -5,10 +5,7 @@ Unit tests for discretestats.py
 """
 
 import unittest
-import testUtils
 from StringIO import StringIO
-
-testUtils.checkPythonPath('discretestats')
 from discretestats import *
 import statslib
 

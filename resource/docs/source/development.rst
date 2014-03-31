@@ -32,26 +32,58 @@ Project structure
 
 Main parts are:
 
-- root directory - ant build script (``build.xml``), ant ``build.properties`` (if you need one),
+- root directory - gradle build script (``build.gradle``) and properties file 
+  (``settings.gradle``
   ``setup.py`` (for setuptools install), plus some text files
-- ``/bin`` - shell and python scripts for building and packaging
+- ``/bin`` - a couple of miscellaneous scripts for building and packaging
 - ``/resource/docs`` - documentation root (uses Sphinx/reST)
-- ``/resource/lib`` - Jar files needed for clichart
 - ``/resource/samples`` - sample files for demonstrating capabilities
 - ``/src/main/java`` - Java source for clichart tool
 - ``/src/main/python`` - source for all tools (including clichart wrapper)
 - ``/src/test/java`` 
 - ``/src/test/python`` 
-- ``/target`` - build directory.
+- ``/build`` - build directory.
 
 Building
 ========
 
-Follow all the steps in ``/DistChecklist.txt``.  This will ensure that your development environment
-is set up OK, and then walk you through all the steps to build, test,  and package.
+**IMPORTANT NOTE:** 
 
-Note that you may need to create a ``/build.properties`` file for ant, particularly to set 
-a path for cobertura.
+    Clichart is set up to build on *nix systems (Linux, OSX etc.).  The build can be
+    made to work on Windows under Cygwin, but you'll probably have quite a bit of work 
+    to do if you try to do it on Windows directly...
+
+The quick version:
+
+    # start in the project's root directory
+    gradle dist                 # builds and zips everything
+    gradle installForTest
+    . build/install-test/virtualenv/bin/activate
+    bin/testInstall.py
+    deactivate
+
+The longer version is documented in ``/DistChecklist.txt``.  This will ensure that your development environment
+is set up OK, and then walk you through all the steps to build, test, and package.
+
+Mandatory Build Tools
+---------------------
+
+:git: Of course
+:Java JDK:
+:Gradle: Build system
+:Sphinx: Documentation builder.  Check for ``sphinx-build``
+:Python setuptools: Provides packaging and installer.  Check for ``easy-install``
+
+Recommended Build Tools
+-----------------------
+
+The following tools are used in standard build targets, or are useful for checking results.
+
+:Python nosetest: Test runner for unit tests
+:Python coverage: Code coverage tool for Python, integrates with/called via nosetest
+:Python virtualenv: Provides virtualised Python environments, used for test installs
+:ImageMagick convert: Used to generate thumbnails of charts for documentation
+:Linkchecker: Useful tool to check links in documentation
 
 Documentation
 =============
@@ -62,12 +94,12 @@ rebuild the documentation when published.
 Special notes about the documentation:
 
 - You have to update both the version and release numbers in the Sphinx conf.py file for a new
-  release
+  release.  The gradle build script will fail the build if this isn't done
 - The documentation builds initially to ``/resource/docs/build`` - the files are then copied from 
-  there to the ``/target`` directory
+  there to the ``/build`` directory
 - Because the documentation build uses Sphinx, there's no easy way (that I've found, at least)
   to have the thumbnail images updated automatically and copied in.  Therefore, the 
-  ``/bin/buildDoco.sh`` script (re)generates thumbnails if required, in the 
-  ``/resource/docs/source/_static/images`` directory.  **This means that running 
-  ``/bin/buildDoco.sh`` may require a git commit afterwards** (but it should tell you if so)
+  gradle build script (re)generates thumbnails if required, in the 
+  ``/resource/docs/source/_static/images`` directory.  **This means that running a build
+  may require a git commit afterwards**.
 
