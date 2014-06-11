@@ -15,13 +15,19 @@ Installation
 ============
 
  1. Make sure you have `Java <http://www.oracle.com/technetwork/java/javase/downloads/index.html>`_ installed
- 2. If you want to use the data summarisation tools (``linestats``, ``discretestats`` and ``mid``), make
-    sure you have `Python <http://www.python.org/>`_ installed
- 3. Extract the CLIChart zip file to a suitable directory
- 4. If you want to be able to launch clichart by just typing ``clichart`` without a path, you can:
+ 2. Make sure you have `Python <http://www.python.org/>`_ installed
+ 3. Download the CLIChart zip file from the 
+    `releases page <https://github.com/captsens/clichart/releases>`_ on Github, 
+    and extract to a suitable directory
+ 4. If you want the tools to be installed in your path (recommended):
 
-    * Add the CLIChart ``bin`` directory to your PATH, or
-    * (Unix/Linux) Create symbolic links for the programs in the CLIChart ``bin`` directory
+    * Install `easy_install in the setuptools module <https://pypi.python.org/pypi/setuptools>`_
+    * Use ``easy_install clichart-x.y.z.egg`` to install (insert your version number)
+
+        + Note that on Linux you'll have to be root (or use sudo)
+
+Test your installation by typing ``clichart -h`` at a command prompt - this should give you
+the help screen.
 
 See the `installation page <installation.html>`_ for further information.
 

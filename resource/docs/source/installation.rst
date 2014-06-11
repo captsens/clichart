@@ -17,7 +17,7 @@ This page is yet to be written properly.  So the short form is:
  3. Extract the CLIChart zip file to a suitable directory
  4. If you want the tools to be installed in your path (recommended):
 
-    * Install `easy_install in the setuptools modele <https://pypi.python.org/pypi/setuptools>`_
+    * Install `easy_install in the setuptools module <https://pypi.python.org/pypi/setuptools>`_
     * Use ``easy_install clichart-x.y.z.egg`` to install (insert your version number)
 
         + Note that on Linux you'll have to be root (or use sudo)
