@@ -4,7 +4,7 @@
 // TODO: run install tests (?)
 
 apply plugin: 'java'
-apply plugin: 'jacoco'
+// apply plugin: 'jacoco'
 
 version = '0.6.0a1'
 
@@ -47,13 +47,13 @@ jar {
     }
 }
 
-jacocoTestReport {
-    reports {
-        xml.enabled false
-        csv.enabled false
-        html.destination "$buildDir/reports/javaCoverage"
-    }
-}
+// jacocoTestReport {
+//     reports {
+//         xml.enabled false
+//         csv.enabled false
+//         html.destination "$buildDir/reports/javaCoverage"
+//     }
+// }
 
 task pythonTests << {
     runPythonTests(false)
@@ -82,7 +82,8 @@ def runPythonTests(def includeCoverage) {
     }
 }
 
-task coverage(dependsOn: [jacocoTestReport, pythonCoverage]) {}
+// task coverage(dependsOn: [jacocoTestReport, pythonCoverage]) {}
+task coverage(dependsOn: [pythonCoverage]) {}
 
 task updateImageThumbnails << {
     def thumbnailsUpdated = false
