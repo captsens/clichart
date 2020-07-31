@@ -5,7 +5,7 @@ Unit tests for aggregate.py
 """
 
 import unittest
-from StringIO import StringIO
+from io import StringIO
 from aggregate import *
 import statslib
 
@@ -106,7 +106,7 @@ class ProcessFileTest(unittest.TestCase):
         try:
             processFile(StringIO(''), output, ['1:min'], True, True, False, [])
             fail()
-        except statslib.InvalidDataException, expected:
+        except statslib.InvalidDataException as expected:
             pass
     def testProcessFile_InvalidNumberInInput(self):
         output = StringIO()
@@ -114,21 +114,21 @@ class ProcessFileTest(unittest.TestCase):
         try:
             processFile(StringIO(invalidInput), output, ['1:min'], True, False, False, [])
             self.fail()
-        except statslib.InvalidDataException, expected:
+        except statslib.InvalidDataException as expected:
             pass
     def testProcessFile_InvalidOutputColumnIndex(self):
         output = StringIO()
         try:
             processFile(StringIO(CSV_INPUT), output, ['5:min'], True, False, False, [])
             self.fail()
-        except statslib.InvalidDataException, expected:
+        except statslib.InvalidDataException as expected:
             pass
     def testProcessFile_InvalidOutputExpression(self):
         output = StringIO()
         try:
             processFile(StringIO(CSV_INPUT), output, ['2:min +/ 2'], True, False, False, [])
             self.fail()
-        except statslib.InvalidOptionException, expected:
+        except statslib.InvalidOptionException as expected:
             pass
     def testProcessFile_WithZeroQuotient(self):
         output = StringIO()
@@ -164,7 +164,7 @@ class FunctionTest(unittest.TestCase):
         maxLength = 6
         if '.' in result:
             maxLength += 1
-        self.assert_(len(result) <= maxLength)
+        self.assertTrue(len(result) <= maxLength)
         # at the very least, the part before the decimal point should be equal
         self.assertEqual(int(value), int(float(result)))
 

@@ -27,7 +27,7 @@ See usage()
 
 import sys, getopt, re, traceback
 
-from statslib import *
+from .statslib import *
 
 # ==============================================================================
 class Accumulator:
@@ -48,13 +48,13 @@ class Accumulator:
 
     def getColumnNames(self):
         """Return all the column values (useful for headers)"""
-        columnNames = self.allValues.keys()
+        columnNames = list(self.allValues.keys())
         columnNames.sort()
         return columnNames
 
     def getResults(self, sortOutput):
         """Yields key, [valueCounts] for each key"""
-        keys = self.lineStats.keys()
+        keys = list(self.lineStats.keys())
         if sortOutput:
             keys.sort()
         for key in keys:
@@ -64,14 +64,14 @@ class Accumulator:
 # ------------------------------------------------------------------------------
 def usage(msg = None, includeException = False):
     if msg:
-        print
-        print msg
+        print()
+        print(msg)
         if includeException:
-            errors = traceback.format_exception_only(sys.exc_type, sys.exc_value)
+            errors = traceback.format_exception_only(sys.exc_info()[0], sys.exc_info()[1])
             for error in errors:
-                print '  %s' % error.strip()
+                print('  %s' % error.strip())
 
-    print """
+    print("""
 Given line-based text input, extract a key field and a field containing
 discrete values for each line of interest, and output the count of *each
 value* for each key field. For example, when the field is the priority of log
@@ -113,7 +113,7 @@ Other Options:
 Substrings:
 ===========
 Consist of 1 or 2 indexes, 0-based, separated by a colon.
-"""
+""")
     sys.exit(1)
 
 # ==============================================================================
@@ -168,10 +168,10 @@ def main():
 
         if inFile != sys.stdin:
             inFile.close()
-    except InvalidOptionException, e:
+    except InvalidOptionException as e:
         usage(e)
-    except InvalidDataException, e:
-        print e
+    except InvalidDataException as e:
+        print(e)
 
 # ------------------------------------------------------------------------------
 if __name__ == '__main__':

@@ -28,7 +28,7 @@ See usage()
 """
 
 import sys, getopt, os, re
-from statslib import *
+from .statslib import *
 
 OUTPUT_MIN = 'min'
 OUTPUT_MAX = 'max'
@@ -48,9 +48,9 @@ COLUMN_EXPRESSION_RE = re.compile(r'(-?\d+):(%s)' % '|'.join(ALL_OUTPUT_TYPES))
 # ===============================================================
 def usage(msg = None):
     if msg:
-        print msg
-        print
-    print """
+        print(msg)
+        print()
+    print("""
 A simple script to extract aggregate data (minimum, average, maximum, total,
 count, first or last value) from files containing tabular data (CSV or
 whitespace-separated). The output of the script will be 1 row of data for
@@ -92,7 +92,7 @@ Simple expressions can also be used. To indicate negation rather than a
 negative column index, you must separate the minus sign and the column index
 with a space.
   E.g. '1:max / 3:cnt / 60', '1:tot - 3:tot', '2:av - -1:av'
-"""
+""")
     sys.exit(1)
 
 # ===============================================================
@@ -167,11 +167,11 @@ class KeyedRowStats(object):
         Note that allColumnStats will be cloned"""
         self.keyValues = keyValues
         self.allColumnStats = {}
-        for key, value in allColumnStats.items():
+        for key, value in list(allColumnStats.items()):
             columnNumber = value.columnNumber
             self.allColumnStats[columnNumber] = ColumnStats(columnNumber)
     def accumulate(self, lineCpts, lineNumber):
-        for columnNumber, columnStats in self.allColumnStats.items():
+        for columnNumber, columnStats in list(self.allColumnStats.items()):
             columnStats.accumulate(getColumnValue(lineCpts, columnNumber, lineNumber), lineNumber)
 
 # ---------------------------------------------------------------
@@ -250,7 +250,7 @@ def evaluateExpression(expression, allColumnStats):
     #print updatedExpression
     try:
         return eval(updatedExpression)
-    except Exception, e:
+    except Exception as e:
         #raise e
         raise InvalidOptionException('Invalid expression: %s' % expression)
 
@@ -329,10 +329,10 @@ def main():
                 inFile = open(arg)
                 processFile(inFile, sys.stdout, columnOutput, isCsv, skipFirst, silent, prefixColumnValues, suffixColumnValues)
                 inFile.close()
-    except InvalidOptionException, e:
+    except InvalidOptionException as e:
         usage(e.args[0])
-    except InvalidDataException, e:
-        print e.args[0]
+    except InvalidDataException as e:
+        print(e.args[0])
         
 # ---------------------------------------------------------------
 if __name__ == '__main__':

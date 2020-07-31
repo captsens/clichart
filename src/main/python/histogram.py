@@ -29,14 +29,14 @@ See usage()
 
 import sys, getopt
 from math import ceil
-from statslib import *
+from .statslib import *
 
 # ---------------------------------------------------------------
 def usage(msg = None):
     if msg:
-        print msg
-        print
-    print """
+        print(msg)
+        print()
+    print("""
 A simple script to extract a specified column in a file containing tabular
 data (CSV or whitespace-separated), and to output a histogram of the
 distribution of the data in that column, broken into a specified number of
@@ -63,7 +63,7 @@ Options:
  -s <size>      Size of interval (an alternative to -i)
  --header       Include a header row in the output
  --nojit        Disable Psyco Just-In-Time compiler
-"""
+""")
     sys.exit(1)
 
 # ===============================================================
@@ -151,9 +151,9 @@ def outputHistogram(outFile, values, minValue, maxValue, options):
     if options.showPercent:
         headers.append('Percent')
     if options.includeOutputHeader:
-        print >> outFile, _separator(options.isCsv).join(headers)
+        print(_separator(options.isCsv).join(headers), file=outFile)
     for interval in intervals:
-        print >> outFile, _joinLine(interval, options)
+        print(_joinLine(interval, options), file=outFile)
 
 # ---------------------------------------------------------------
 def calculateHistogram(values, minValue, maxValue, options):
@@ -216,8 +216,8 @@ def main():
     try:
         minValue, maxValue, values = parseData(inFile, options)
         outputHistogram(sys.stdout, values, minValue, maxValue, options)
-    except InvalidDataException, e:
-        print 'Error:', e
+    except InvalidDataException as e:
+        print('Error:', e)
 
 # ---------------------------------------------------------------
 if __name__ == '__main__':

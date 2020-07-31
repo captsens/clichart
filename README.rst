@@ -2,6 +2,16 @@
 CLIChart - Visualisation from the command line
 ==============================================
 
+
+NOTE - 2020
+===============
+
+* Minor changes to get this working with Python3 (still very rough)
+* Note that now builds a Wheel, so have to install using:
+
+    pip3 install build/egg/dist/clichart-0.6.0a1-py3-none-any.whl
+
+
 1. Introduction
 ===============
 clichart is a tool for quick visualisation of tabular data, by generating and

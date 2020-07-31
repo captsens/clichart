@@ -26,19 +26,19 @@ See usage()
 """
 
 import sys, getopt, re, traceback
-from statslib import *
+from .statslib import *
 
 # ------------------------------------------------------------------------------
 def usage(msg = None, includeException = False):
     if msg:
-        print
-        print msg
+        print()
+        print(msg)
         if includeException:
-            errors = traceback.format_exception_only(sys.exc_type, sys.exc_value)
+            errors = traceback.format_exception_only(sys.exc_info()[0], sys.exc_info()[1])
             for error in errors:
-                print '  %s' % error.strip()
+                print('  %s' % error.strip())
 
-    print """
+    print("""
 Given line-based text input, output statistics about the lines received, e.g
 counts, sums, averages etc.  Useful for generating summary statistics from text
 data, especially for passing to clichart for charting.
@@ -100,7 +100,7 @@ To duplicate grep behaviour, suffix them with "?" to make them non-greedy.
 When used to extract a value, if the regex contains a bracketed group, this
 will be used as the value - otherwise the whole match is used.  See HTML
 documentation for full details.
-"""
+""")
     sys.exit(1)
 
 # ==============================================================================
@@ -169,7 +169,7 @@ class Accumulator:
 
     def getResults(self, sortOutput):
         """Yields key, count(key), [fieldStats] for each key"""
-        keys = self.lineCounts.keys()
+        keys = list(self.lineCounts.keys())
         if sortOutput:
             keys.sort()
         for key in keys:
@@ -200,7 +200,7 @@ def processFile(inFile, outFile, options):
             accumulator.lineRead(line, lineNumber)
 
     if options.headerLine:
-        print >> outFile, options.headerLine
+        print(options.headerLine, file=outFile)
     for key, keyCount, fieldStats in accumulator.getResults(options.sortOutput):
         outputFormatter.output(outFile, key, keyCount, fieldStats)
 
@@ -219,10 +219,10 @@ def main():
 
         if inFile != sys.stdin:
             inFile.close()
-    except InvalidOptionException, e:
+    except InvalidOptionException as e:
         usage(e)
-    except InvalidDataException, e:
-        print e
+    except InvalidDataException as e:
+        print(e)
         
 # ------------------------------------------------------------------------------
 if __name__ == '__main__':

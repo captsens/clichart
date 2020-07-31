@@ -55,11 +55,11 @@ jar {
 //     }
 // }
 
-task pythonTests << {
+task pythonTests doLast {
     runPythonTests(false)
 }
 
-task pythonCoverage << {
+task pythonCoverage doLast {
     runPythonTests(true)
 }
 
@@ -85,7 +85,7 @@ def runPythonTests(def includeCoverage) {
 // task coverage(dependsOn: [jacocoTestReport, pythonCoverage]) {}
 task coverage(dependsOn: [pythonCoverage]) {}
 
-task updateImageThumbnails << {
+task updateImageThumbnails doLast {
     def thumbnailsUpdated = false
     fileTree(docsImageDir).include('**/*.png').exclude('**/*-small.png')\
             .each{pngFile ->
@@ -105,7 +105,7 @@ task updateImageThumbnails << {
     }
 }
 
-task checkDocsVersion << {
+task checkDocsVersion doLast {
     file("$docsSourceDir/conf.py").getText().readLines().each {String line ->
         def match = line =~ /^\s*(version|release)\s*=\s*["'](.*?)["'].*/
         if (match.matches() && match[0][2] != version) {
@@ -154,9 +154,11 @@ task egg(dependsOn: [build, libs, setupPy]) {
             into eggContentDir
         }
         exec {
-            executable = "python"
+            executable = "python3"
             workingDir = eggDir
-            args = ['setup.py', 'bdist_egg']
+//            args = ['setup.py', 'bdist_egg']
+            args = ['setup.py', 'sdist', 'bdist_wheel' +
+                    '']
         }
         // Remove python version number from egg, so that it works on all versions of python
         fileTree(eggDistDir).include("clichart-$version-*.egg").each {File f ->
@@ -197,7 +199,7 @@ task dist(type: Zip, dependsOn: [build, egg, docs]) {
     }
 }
 
-task cleanVirtualEnv << {
+task cleanVirtualEnv doLast {
     // gradle doesn't understand about deleting directory symlinks, so fails to remove virtualenv
     def virtualEnv = file("$buildDir/install-test/virtualenv")
     if (virtualEnv.isDirectory()) {

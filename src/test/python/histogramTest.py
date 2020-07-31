@@ -9,7 +9,7 @@ TODO:
 """
 
 import unittest
-from StringIO import StringIO
+from io import StringIO
 from histogram import *
 from statslib import InvalidDataException
 
@@ -56,7 +56,7 @@ class HistogramTest(unittest.TestCase):
         try:
             self._testParseData(testData, True, False)
             self.fail()
-        except InvalidDataException, e:
+        except InvalidDataException as e:
             pass
 
     def testCalculateHistogram_numIntervals(self):
@@ -79,7 +79,7 @@ class HistogramTest(unittest.TestCase):
 
     def _buildOptions(self, **kw):
         options = Options()
-        for property, value in kw.items():
+        for property, value in list(kw.items()):
             setattr(options, property, value)
         return options
 

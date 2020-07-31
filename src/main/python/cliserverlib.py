@@ -36,7 +36,7 @@ TODO: Now also supports connecting to a CLIChart TCP/IP server on localhost, by 
 a port to the ClichartDriver constructor.
 """
 
-import os, threading, Queue, time, socket, subprocess
+import os, threading, queue, time, socket, subprocess
 
 DEBUG = False
 
@@ -111,7 +111,7 @@ class StdoutReader(threading.Thread):
             if self.queue:
                 self.queue.put(line)
             else:
-                print 'stderr:', line
+                print('stderr:', line)
 
 # ==============================================================================
 class SocketWriter(object):
@@ -171,25 +171,25 @@ class ClichartDriver(object):
             clichartPath = 'clichart'
         commandLine = '%s --cliserver' % clichartPath
         if DEBUG:
-            print commandLine
+            print(commandLine)
 
         #self.stdin, self.stdout, self.stderr = os.popen3(commandLine)
         process = subprocess.Popen(commandLine, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE, close_fds=True, shell=True)
         self.stdin, self.stdout, self.stderr = process.stdin, process.stdout, process.stderr
         
-        self.queue = Queue.Queue()
+        self.queue = queue.Queue()
         # stdout goes to queue, just print stderr
         StdoutReader(self.stdout, self.queue).start()
         StdoutReader(self.stderr, None).start()
 
     def __startTcpServer(self, port):
         if DEBUG:
-            print 'Starting connection to TCP/IP server on port', port
+            print('Starting connection to TCP/IP server on port', port)
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect(('localhost', port))
         self.stdin = SocketWriter(s)
-        self.queue = Queue.Queue()
+        self.queue = queue.Queue()
         self.stdout = SocketReader(s)
         StdoutReader(self.stdout, self.queue).start()
 
@@ -217,7 +217,7 @@ class ClichartDriver(object):
             pass
 
     def __processOptions(self, optionParams):
-        for key, value in optionParams.items():
+        for key, value in list(optionParams.items()):
             if key in CLICHART_OPTIONS:
                 command, methodName = CLICHART_OPTIONS[key]
                 exec('self.%s(command, value)' % methodName)
@@ -249,11 +249,11 @@ class ClichartDriver(object):
         elif value == CHART_TYPE_NONE:
             self.__sendCommand('noxvalue')
         else:
-            raise ClichartError, 'Invalid chart type value: %s' % value
+            raise ClichartError('Invalid chart type value: %s' % value)
 
     def __sendCommand(self, command, arg=None, expectResponse=True):
         if DEBUG:
-            print 'Command:', command, arg
+            print('Command:', command, arg)
         self.stdin.write(command)
         if arg:
             self.stdin.write(' %s' % arg)
@@ -272,8 +272,8 @@ class ClichartDriver(object):
                 # Python 2.2 doesn't support timeout
                 response = self.queue.get(True)
             if DEBUG:
-                print ' Response:', response
+                print(' Response:', response)
             if not response.startswith('OK'):
-               raise ClichartError, response
-        except Queue.Empty:
-            raise ClichartError, 'No response received'
+               raise ClichartError(response)
+        except queue.Empty:
+            raise ClichartError('No response received')

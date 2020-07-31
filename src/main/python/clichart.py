@@ -70,8 +70,8 @@ def findJava():
     if os.path.exists(javaExe):
         return javaExe
     else:
-        print >> sys.stderr, 'Ignoring JAVA_HOME env var - does not exist'
-        print >> sys.stderr, '  [%s]' % javaExe
+        print('Ignoring JAVA_HOME env var - does not exist', file=sys.stderr)
+        print('  [%s]' % javaExe, file=sys.stderr)
         return JAVA
 
 # -----------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ def findClichartJar():
     directory = os.path.dirname(realScript)
     jarPaths = glob.glob(os.path.join(directory, JAR_PATTERN))
     if len(jarPaths) != 1:
-        print >> sys.stderr, 'Error: did not find exactly one CLIChart jar file in %s' % directory
+        print('Error: did not find exactly one CLIChart jar file in %s' % directory, file=sys.stderr)
         sys.exit(1)
     return adjustCygwinPath(jarPaths[0])
 

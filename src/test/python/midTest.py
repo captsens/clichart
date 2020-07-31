@@ -15,9 +15,9 @@ class RangeSpecTest(unittest.TestCase):
         self.assertEqual(rangeSpec.start, start)
         self.assertEqual(rangeSpec.end, end)
         if start < 0 or end < 0:
-            self.assert_(rangeSpec.hasNegativeIndex())
+            self.assertTrue(rangeSpec.hasNegativeIndex())
         else:
-            self.assert_(not rangeSpec.hasNegativeIndex())
+            self.assertTrue(not rangeSpec.hasNegativeIndex())
 
     def testArg_Positive(self):
         rangeSpec = RangeSpec('8:67')

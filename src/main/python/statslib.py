@@ -71,11 +71,11 @@ def enablePsyco(enable):
         try:
             import psyco
             psyco.full()
-            if DEBUG: print >> sys.stderr, 'Psyco enabled'
+            if DEBUG: print('Psyco enabled', file=sys.stderr)
         except ImportError:
-            if DEBUG: print >> sys.stderr, 'Psyco not present'
+            if DEBUG: print('Psyco not present', file=sys.stderr)
     else:
-        if DEBUG: print >> sys.stderr, 'Psyco disabled'
+        if DEBUG: print('Psyco disabled', file=sys.stderr)
 
 # ==============================================================================
 class ValueExtractor:
@@ -163,11 +163,11 @@ class OutputFormatter:
         if self.isCsv:
             if key is not None:
                 outFile.write('%s, ' % self._quote(key))
-            print >> outFile, ', '.join([self._quote(str(value)) for value in values])
+            print(', '.join([self._quote(str(value)) for value in values]), file=outFile)
         else:
             if key is not None:
                 outFile.write('%s ' % self._quote(key))
-            print >> outFile, '  '.join([self._format(value) for value in values]).rstrip()
+            print('  '.join([self._format(value) for value in values]).rstrip(), file=outFile)
 
 # ==============================================================================
 class OutputColumnExtractor:

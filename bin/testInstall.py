@@ -14,23 +14,23 @@ CLI_SERVER_SCRIPT = os.path.join(os.path.dirname(__file__), '../src/test/system/
 # ----------------------------------------------------------------------------
 def usage(msg = None):
     if msg:
-        print
-        print msg
+        print()
+        print(msg)
 
-    print """Tests the clichart install
+    print("""Tests the clichart install
 
 Options:
  -c     Perform only CLI server script file test
  -h     Show help (this page) and exit
  -l     Perform only cliserverlib test
  -r     Perform only standard runthrough
-"""
+""")
     sys.exit(1)
 
 # ----------------------------------------------------------------------------
 def getJavaHomes():
     if sys.platform.find('linux') < 0:
-        print "This script doesn't yet work on systems other than Linux..."
+        print("This script doesn't yet work on systems other than Linux...")
         sys.exit(1)
     javaDirs = set()
     for directory in os.listdir('/usr/lib/jvm'):
@@ -46,7 +46,7 @@ def setJavaHome(javaHome):
     if javaHome is None:
         # don't set JAVA_HOME
         return
-    print 'Setting Java Home to', javaHome
+    print('Setting Java Home to', javaHome)
     os.putenv('JAVA_HOME', javaHome)
 
 # ----------------------------------------------------------------------------
@@ -58,7 +58,7 @@ def outputOption(filename, javaVersion):
 
 # ----------------------------------------------------------------------------
 def chart(title, cmdLine, inputFile, outputFile, javaVersion):
-    print '-------', title
+    print('-------', title)
 
     realCmdLine = cmdLine.replace('$OUTPUT', outputOption(outputFile, javaVersion)) \
             .replace('$INPUT', _sample(inputFile)) \
@@ -75,7 +75,7 @@ def testChartWithEmptyValue(javaVersion):
     """Test a chart with an empty data value, and the --ignoreempty option set.  Don't (want to)
     have a special test file for this, so must be handled separately"""
     title = 'System temps with the 2 temps for 10:30 empty'
-    print '-------', title
+    print('-------', title)
     cmdLine = 'cat %s | sed -e "s/10:30, 67.9, 48.1/10:30, ,/" | ' % _sample('SystemTemps.csv') \
             + 'clichart -fcl 0,1,2 -t "%s" -y "Degrees C" %s --columnlist2 3,4 --ytitle2 RPM --ignoreempty' \
             % (title, outputOption('SystemTemps-empty.png', javaVersion))
@@ -83,7 +83,7 @@ def testChartWithEmptyValue(javaVersion):
 
 # ----------------------------------------------------------------------------
 def standardRunthrough(javaHome):
-    print '========== Java %s ===============' % javaHome
+    print('========== Java %s ===============' % javaHome)
     setJavaHome(javaHome)
     if javaHome:
         javaVersion = os.path.split(javaHome)[1]
@@ -222,9 +222,9 @@ def testCliserverlib():
     # finally, check that the timeout is used
     driver = cliserverlib.ClichartDriver()
     driver.setServerTimeout(1)
-    print '    ========================================================='
-    print '    Should now see exit message from cliserver!'
-    print '    ========================================================='
+    print('    =========================================================')
+    print('    Should now see exit message from cliserver!')
+    print('    =========================================================')
     time.sleep(2)
 
 
@@ -255,11 +255,11 @@ if __name__ == '__main__':
 
     # Now test CLI server mode by piping a script to stdin
     if cliScript:
-        print '=' * 75
-        print 'Running CLI server test from saved script file'
+        print('=' * 75)
+        print('Running CLI server test from saved script file')
         os.system('clichart --cliserver < %s' % CLI_SERVER_SCRIPT)
 
     if cliLib:
-        print '=' * 75
-        print 'Running CLI server test using cliserverlib'
+        print('=' * 75)
+        print('Running CLI server test using cliserverlib')
         testCliserverlib()

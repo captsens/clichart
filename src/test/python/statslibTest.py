@@ -5,7 +5,7 @@ Unit tests for statslib
 """
 
 import unittest
-from StringIO import StringIO
+from io import StringIO
 from statslib import *
 
 TEST_LINE = 'abcdef'
@@ -19,15 +19,15 @@ KEY = 'The key'
 class LineMatcherTest(unittest.TestCase):
     def testValidPattern(self):
         matcher = LineMatcher(r'abc.*?xyz')
-        self.assertEquals(matcher.shouldInclude(''), False)
-        self.assertEquals(matcher.shouldInclude('Some line'), False)
-        self.assertEquals(matcher.shouldInclude('abcxyz'), True)
-        self.assertEquals(matcher.shouldInclude('abcMeaninglessTextxyz'), True)
+        self.assertEqual(matcher.shouldInclude(''), False)
+        self.assertEqual(matcher.shouldInclude('Some line'), False)
+        self.assertEqual(matcher.shouldInclude('abcxyz'), True)
+        self.assertEqual(matcher.shouldInclude('abcMeaninglessTextxyz'), True)
 
     def testNullPattern(self):
         matcher = LineMatcher()
-        self.assert_(matcher.shouldInclude(''))
-        self.assert_(matcher.shouldInclude('Some line'))
+        self.assertTrue(matcher.shouldInclude(''))
+        self.assertTrue(matcher.shouldInclude('Some line'))
 
     def testInvalidPattern(self):
         try:
@@ -61,22 +61,22 @@ class CheckIndexTest(unittest.TestCase):
 class ValueExtractorTest(unittest.TestCase):
     def testGetValue_SubstringWithEnd(self):
         extractor = ValueExtractor('s:3:5')
-        self.assertEquals('de', extractor.getValue(TEST_LINE, 1))
+        self.assertEqual('de', extractor.getValue(TEST_LINE, 1))
     def testGetValue_SubstringWithoutEnd(self):
         extractor = ValueExtractor('s:2:')
-        self.assertEquals('cdef', extractor.getValue(TEST_LINE, 1))
+        self.assertEqual('cdef', extractor.getValue(TEST_LINE, 1))
     def testGetValue_SubstringBothNegative(self):
         extractor = ValueExtractor('s:-4:-2')
-        self.assertEquals('cd', extractor.getValue(TEST_LINE, 1))
+        self.assertEqual('cd', extractor.getValue(TEST_LINE, 1))
     def testGetValue_SubstringOneNegative(self):
         extractor = ValueExtractor('s:2:-2')
-        self.assertEquals('cd', extractor.getValue(TEST_LINE, 1))
+        self.assertEqual('cd', extractor.getValue(TEST_LINE, 1))
     def testGetValue_FieldNumberFirst(self):
         extractor = ValueExtractor('f:0')
-        self.assertEquals('abc', extractor.getValue(TEST_LINE_WITH_SPACES, 1))
+        self.assertEqual('abc', extractor.getValue(TEST_LINE_WITH_SPACES, 1))
     def testGetValue_FieldNumberLast(self):
         extractor = ValueExtractor('f:3')
-        self.assertEquals('jkl', extractor.getValue(TEST_LINE_WITH_SPACES, 1))
+        self.assertEqual('jkl', extractor.getValue(TEST_LINE_WITH_SPACES, 1))
     def testGetValue_FieldNumberInvalid(self):
         extractor = ValueExtractor('f:4')
         try:
@@ -86,10 +86,10 @@ class ValueExtractorTest(unittest.TestCase):
             pass
     def testGetValue_RegexWithGroup(self):
         extractor = ValueExtractor(r'r:b(.*?)g')
-        self.assertEquals('c def   ', extractor.getValue(TEST_LINE_WITH_SPACES, 1))
+        self.assertEqual('c def   ', extractor.getValue(TEST_LINE_WITH_SPACES, 1))
     def testGetValue_RegexWithoutGroup(self):
         extractor = ValueExtractor(r'r:b.*?g')
-        self.assertEquals('bc def   g', extractor.getValue(TEST_LINE_WITH_SPACES, 1))
+        self.assertEqual('bc def   g', extractor.getValue(TEST_LINE_WITH_SPACES, 1))
     def testGetValue_RegexNoMatch(self):
         extractor = ValueExtractor(r'r:NO_MATCH')
         try:
@@ -118,7 +118,7 @@ class OutputFormatterTest(unittest.TestCase):
         output = StringIO()
         formatter = OutputFormatter(isCsv, quote)
         formatter.output(output, key, values)
-        self.assertEquals(expected + '\n', output.getvalue())
+        self.assertEqual(expected + '\n', output.getvalue())
 
     def testOutput(self):
         # Text, no quoting

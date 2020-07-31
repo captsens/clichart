@@ -35,7 +35,7 @@ See usage()
 """
 
 import sys, os
-from statslib import *
+from .statslib import *
 
 # ============================================================================
 class ArgException(Exception):
@@ -47,14 +47,14 @@ class RangeSpec:
         """Arg is of form <start>:<end>"""
         cpts = arg.split(':')
         if len(cpts) != 2:
-            raise ArgException, 'Invalid range argument: %s' % arg
+            raise ArgException('Invalid range argument: %s' % arg)
         try:
             self.start = int(cpts[0])
             self.end = int(cpts[1])
         except:
-            raise ArgException, 'Invalid range argument: %s' % arg
+            raise ArgException('Invalid range argument: %s' % arg)
         if self.start == 0 or self.end == 0:
-            raise ArgException, 'Invalid range argument: %s' % arg
+            raise ArgException('Invalid range argument: %s' % arg)
 
     def hasNegativeIndex(self):
         return self.start < 0 or self.end < 0
@@ -97,7 +97,7 @@ class LineParser:
                     self.bufferStartLine = min(self.bufferStartLine, rangeSpec.start)
 
     def _printLine(self, line):
-        print line,
+        print(line, end=' ')
 
     def _adviseLine(self, lineNumber, line):
         for rangeSpec in self.rangeSpecs:
@@ -148,10 +148,10 @@ def setExplicitRangeIndexes(rangeSpecs, filePath):
 # ----------------------------------------------------------------------------
 def usage(msg = None):
     if msg:
-        print
-        print msg
+        print()
+        print(msg)
 
-    print """
+    print("""
 Output one or more ranges of lines from within a file (or stdout).  Works like
 a combination of head and tail.
 
@@ -182,7 +182,7 @@ Examples:
  2:-1           All but the first line of the file
  -10:-1         The last 10 lines of the file
  1:1 -1:-1      Just the first and last line of the file
-"""
+""")
     sys.exit(1)
 
 
@@ -219,7 +219,7 @@ def main():
     try:
         for arg in args:
             rangeSpecs.append(RangeSpec(arg))
-    except ArgException, msg:
+    except ArgException as msg:
         filePath = arg
         if not os.path.exists(filePath):
             usage('Cannot find file - invalid path (or range): %s' % filePath)

@@ -25,16 +25,16 @@ Merge 2 or more data files, based on values in the key column.  See usage() for 
 """
 
 import sys, getopt, os, re
-from statslib import *
+from .statslib import *
 
 HEADER_ROW_KEY = ''
 
 # ===============================================================
 def usage(msg = None):
     if msg:
-        print msg
-        print
-    print """
+        print(msg)
+        print()
+    print("""
 A simple script to merge data from 2 or more data files, based on the value in
 the key column of each file.  The output (to stdout) is a single line for each
 unique key value, containing the specified column values available in the files
@@ -67,7 +67,7 @@ Example:
 Two CSV files, key column is first in each, output second and third columns from each file
 
   merge.py -k 0:0,1:0 -l 0:1,0:2,1:1,1:2 -c file1.csv file2.csv
-"""
+""")
     sys.exit(1)
 
 # ---------------------------------------------------------------
@@ -99,7 +99,7 @@ def mergeFileData(dataFromFiles, valueColumns, defaults, isCsv, skipFirst):
         #outputColumnIndexes = [columnIndex for fileIndex, columnIndex in valueColumns if fileIndex == fileNumber]
         outputColumnIndexes = [i for i in range(len(valueColumns)) if valueColumns[i][0] == fileNumber]
         fileData = dataFromFiles[fileNumber]
-        for key, values in fileData.items():
+        for key, values in list(fileData.items()):
             fullValues = valuesByKey.get(key, defaultValues[:])
             # copy in all the values for this file
             for i in range(len(outputColumnIndexes)):
@@ -112,7 +112,7 @@ def mergeFileData(dataFromFiles, valueColumns, defaults, isCsv, skipFirst):
     else:
         separator = '  '
     for key in sorted(valuesByKey.keys()):
-        print separator.join([key] + valuesByKey[key])
+        print(separator.join([key] + valuesByKey[key]))
 
 
 # ---------------------------------------------------------------

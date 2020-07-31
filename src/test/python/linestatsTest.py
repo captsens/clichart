@@ -5,7 +5,7 @@ Unit tests for linestats.py
 """
 
 import unittest
-from StringIO import StringIO
+from io import StringIO
 from linestats import *
 import statslib
 
@@ -28,41 +28,41 @@ class OptionsTest(unittest.TestCase):
         def usage(msg = None):
             self.usageCalled = True
         options = buildOptions('-h', usage)
-        self.assert_(self.usageCalled)
+        self.assertTrue(self.usageCalled)
 
     def _checkValueExtractor(self, extractor, charStartIndex, charEndIndex, fieldIndex = None, pattern = None):
-        self.assertEquals(extractor.charStartIndex, charStartIndex)
-        self.assertEquals(extractor.charEndIndex, charEndIndex)
-        self.assertEquals(extractor.fieldIndex, fieldIndex)
+        self.assertEqual(extractor.charStartIndex, charStartIndex)
+        self.assertEqual(extractor.charEndIndex, charEndIndex)
+        self.assertEqual(extractor.fieldIndex, fieldIndex)
         if pattern is None:
-            self.assertEquals(extractor.regex, None)
+            self.assertEqual(extractor.regex, None)
         else:
-            self.assertEquals(extractor.regex.pattern, pattern)
+            self.assertEqual(extractor.regex.pattern, pattern)
 
     def _checkOutputColumnExtractor(self, options, index, value_0, value_1):
-        self.assertEquals(options.outputColumnExtractor.fields[index][0], value_0)
-        self.assertEquals(options.outputColumnExtractor.fields[index][1], value_1)
+        self.assertEqual(options.outputColumnExtractor.fields[index][0], value_0)
+        self.assertEqual(options.outputColumnExtractor.fields[index][1], value_1)
 
     def testNoArgs(self):
         options = buildOptions('')
-        self.assertEquals(len(options.args), 0)
-        self.assertEquals(options.isCsv, False)
-        self.assertEquals(options.headerLine, None)
-        self.assertEquals(options.lineMatcher.regex, None)
-        self.assertEquals(len(options.fieldExtractors), 0)
+        self.assertEqual(len(options.args), 0)
+        self.assertEqual(options.isCsv, False)
+        self.assertEqual(options.headerLine, None)
+        self.assertEqual(options.lineMatcher.regex, None)
+        self.assertEqual(len(options.fieldExtractors), 0)
         self._checkValueExtractor(options.keyExtractor, 0, None)
-        self.assertEquals(len(options.outputColumnExtractor.fields), 2)
+        self.assertEqual(len(options.outputColumnExtractor.fields), 2)
         self._checkOutputColumnExtractor(options, 0, None, None)
         self._checkOutputColumnExtractor(options, 1, None, 'count')
 
     def testSimpleExampleOne(self):
         options = buildOptions('-ck s:0:5')
-        self.assertEquals(options.isCsv, True)
-        self.assertEquals(options.headerLine, None)
-        self.assertEquals(options.lineMatcher.regex, None)
-        self.assertEquals(len(options.fieldExtractors), 0)
+        self.assertEqual(options.isCsv, True)
+        self.assertEqual(options.headerLine, None)
+        self.assertEqual(options.lineMatcher.regex, None)
+        self.assertEqual(len(options.fieldExtractors), 0)
         self._checkValueExtractor(options.keyExtractor, 0, 5)
-        self.assertEquals(len(options.outputColumnExtractor.fields), 2)
+        self.assertEqual(len(options.outputColumnExtractor.fields), 2)
         self._checkOutputColumnExtractor(options, 0, None, None)
         self._checkOutputColumnExtractor(options, 1, None, 'count')
 
@@ -72,15 +72,15 @@ class OptionsTest(unittest.TestCase):
                 + '-l k,0:min,1:max,2:av,1:tot samples/System.log'
         options = buildOptions('-m VMStatusLogger -k s:0:5 -v f:4 -v s:7:12 -v r:aPattern ' \
                 + '-l k,0:min,1:max,2:av,1:tot samples/System.log')
-        self.assertEquals(options.isCsv, False)
-        self.assertEquals(options.headerLine, None)
-        self.assertEquals(options.lineMatcher.regex.pattern, 'VMStatusLogger')
-        self.assertEquals(len(options.fieldExtractors), 3)
+        self.assertEqual(options.isCsv, False)
+        self.assertEqual(options.headerLine, None)
+        self.assertEqual(options.lineMatcher.regex.pattern, 'VMStatusLogger')
+        self.assertEqual(len(options.fieldExtractors), 3)
         self._checkValueExtractor(options.fieldExtractors[0], None, None, 4)
         self._checkValueExtractor(options.fieldExtractors[1], 7, 12)
         self._checkValueExtractor(options.fieldExtractors[2], None, None, None, 'aPattern')
         self._checkValueExtractor(options.keyExtractor, 0, 5)
-        self.assertEquals(len(options.outputColumnExtractor.fields), 5)
+        self.assertEqual(len(options.outputColumnExtractor.fields), 5)
         self._checkOutputColumnExtractor(options, 0, None, None)
         self._checkOutputColumnExtractor(options, 1, 0, 'min')
         self._checkOutputColumnExtractor(options, 2, 1, 'max')
@@ -109,7 +109,7 @@ class LineStatsTest(unittest.TestCase):
         results = outFile.getvalue().splitlines()
         if requireSort:
             results.sort()
-        self.assertEquals(results, valueList)
+        self.assertEqual(results, valueList)
 
     def testSimpleCsv(self):
         options = buildOptions('-ck s:0:5')

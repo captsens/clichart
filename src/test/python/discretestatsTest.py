@@ -5,7 +5,7 @@ Unit tests for discretestats.py
 """
 
 import unittest
-from StringIO import StringIO
+from io import StringIO
 from discretestats import *
 import statslib
 
@@ -28,7 +28,7 @@ class DiscreteStatsTest(unittest.TestCase):
         if requireSort:
             # omit first line from header
             results = results[0:1] + sorted(results[1:])
-        self.assertEquals(results, valueList)
+        self.assertEqual(results, valueList)
 
     def testSimpleCsv(self):
         options = buildOptions('-ck s:0:5 -v f:1')

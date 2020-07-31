@@ -28,14 +28,14 @@ See usage()
 """
 
 import sys, getopt, os, re, datetime
-from statslib import *
+from .statslib import *
 
 # ===============================================================
 def usage(msg = None):
     if msg:
-        print msg
-        print
-    print """
+        print(msg)
+        print()
+    print("""
 TODO - output derivatives of columns
 Output is in the same format as the input, i.e. whitespace or comma-separated.
 
@@ -50,7 +50,7 @@ Options:
  -u <columns> A comma-separated ordered list of columns that should be copied to the output
  --date-column <column>  Date/time column number (0-based, defaults to 0)
  --nojit      Disable Psyco Just-In-Time compiler.
-"""
+""")
     sys.exit(1)
 
 # ---------------------------------------------------------------
@@ -92,10 +92,10 @@ def main():
                 inFile = open(arg)
                 processFile(inFile, sys.stdout, columns, dateColumn, dateFormat, isCsv, skipFirst)
                 inFile.close()
-    except InvalidOptionException, e:
+    except InvalidOptionException as e:
         usage(e.args[0])
-    except InvalidDataException, e:
-        print e.args[0]
+    except InvalidDataException as e:
+        print(e.args[0])
 
 # ---------------------------------------------------------------
 def processFile(inFile, outFile, columns, dateColumn, dateFormat, isCsv, skipFirst):
@@ -122,7 +122,7 @@ def parseFile(inFile, columns, dateColumn, dateFormat, isCsv, skipFirst):
             timestampStr = cpts[dateColumn]
             timestamp = datetime.datetime.strptime(timestampStr, dateFormat)
         except TypeError:
-            print >> sys.stderr, 'Invalid number on line %d of file - skipping line' % lineNumber
+            print('Invalid number on line %d of file - skipping line' % lineNumber, file=sys.stderr)
             continue
         if lastValues is None:
             lastValues = columnValues
