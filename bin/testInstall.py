@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 An attempt to run a smoke test of an installed clichart, in a way that will work

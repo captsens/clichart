@@ -3,7 +3,7 @@
 """
 (C) Copyright 2006-2008, by John Dickson
 
-Project Info:  http://clichart.sourceforge.net/
+Project Info:  https://github.com/captsens/clichart
 
 This library is free software; you can redistribute it and/or modify it
 under the terms of the GNU Lesser General Public License as published by
@@ -202,7 +202,7 @@ class OutputColumnExtractor:
 
     def checkIndexes(self, numIndexes):
         for fieldIndex, statsType in self.fields:
-            if fieldIndex >= numIndexes:
+            if fieldIndex is not None and fieldIndex >= numIndexes:
                 raise InvalidOptionException(\
                         'Invalid output field index [%d] - there are only %d fields available' \
                         % (fieldIndex, numIndexes))

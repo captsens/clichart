@@ -4,22 +4,21 @@
 // TODO: run install tests (?)
 
 apply plugin: 'java'
-// apply plugin: 'jacoco'
 
-version = '0.6.0a1'
+version = '0.6.0a2'
 
 group = 'clichart'
 
-sourceCompatibility = 1.5
-targetCompatibility = 1.5
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 project.ext.pythonScriptDir = file("src/main/python")
 project.ext.docsDir = file('resource/docs')
 project.ext.docsSourceDir = file("$docsDir/source")
 project.ext.docsImageDir = file("$docsSourceDir/_static/images")
 project.ext.docsBuildDir = file("$docsDir/build")
-project.ext.eggDir = file("$buildDir/egg")
-project.ext.eggDistDir = file("$eggDir/dist")
+project.ext.wheelDir = file("$buildDir/wheel")
+project.ext.wheelDistDir = file("$wheelDir/dist")
 project.ext.libsDir = file("$buildDir/libs")
 
 repositories {
@@ -131,7 +130,7 @@ task libs(type: Copy) {
 }
 
 task setupPy(type: Copy) {
-    description 'Copies setup.py to the egg dir, and sets the version number'
+    description 'Copies setup.py to the wheel dir, and sets the version number'
     from 'setup.py'
     filter { String line ->
         if (line =~ /^ *version *= *"[^"]+",.*/) {
@@ -140,37 +139,31 @@ task setupPy(type: Copy) {
             return line
         }
     }
-    into eggDir
+    into wheelDir
 }
 
-task egg(dependsOn: [build, libs, setupPy]) {
-    def eggContentDir = file("$eggDir/clichart")
+task wheel(dependsOn: [build, libs, setupPy]) {
+    def wheelContentDir = file("$wheelDir/clichart")
     doLast {
         copy {
             from libsDir
             from pythonScriptDir
             include '**/*.jar'
             include '**/*.py'    
-            into eggContentDir
+            into wheelContentDir
         }
         exec {
             executable = "python3"
-            workingDir = eggDir
-//            args = ['setup.py', 'bdist_egg']
-            args = ['setup.py', 'sdist', 'bdist_wheel' +
-                    '']
-        }
-        // Remove python version number from egg, so that it works on all versions of python
-        fileTree(eggDistDir).include("clichart-$version-*.egg").each {File f ->
-            f.renameTo(file("$eggDistDir/clichart-${version}.egg"))
+            workingDir = wheelDir
+            args = ['setup.py', 'sdist', 'bdist_wheel']
         }
     }
 }
 
-task dist(type: Zip, dependsOn: [build, egg, docs]) {
+task dist(type: Zip, dependsOn: [build, wheel, docs]) {
     def baseDir = "/$project.name-$version"
     into(baseDir) {
-        from eggDistDir
+        from wheelDistDir
     }
     into(baseDir) {
         from projectDir 
@@ -211,6 +204,8 @@ task cleanVirtualEnv doLast {
 clean.dependsOn(cleanVirtualEnv)
 
 task installForTest(dependsOn: dist) {
+    // TODO - properly
+    def wheelFile = new File("$wheelDir/dist", "clichart-$version-py3-none-any.whl")
     doLast {
         def installDir = "$buildDir/install-test"
         copy {
@@ -219,12 +214,12 @@ task installForTest(dependsOn: dist) {
         }
         def virtualEnv = "$installDir/virtualenv"
         exec {
-            executable = 'virtualenv'
-            args = [virtualEnv]
+            executable = 'python3'
+            args = ['-m', 'venv', virtualEnv]
         }
         exec {
-            executable = "$installDir/virtualenv/bin/easy_install"
-            args = ["$installDir/$project.name-${version}/$project.name-${version}.egg"]
+            executable = "$installDir/virtualenv/bin/pip3"
+            args = ['install', wheelFile.absolutePath]
         }
         println """
         CLIChart has been installed in a virtual python environment in $installDir/virtualenv

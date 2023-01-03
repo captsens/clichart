@@ -3,7 +3,7 @@
 """
 (C) Copyright 2006-2010, by John Dickson
 
-Project Info:  http://clichart.sourceforge.net/
+Project Info:  https://github.com/captsens/clichart
 
 This library is free software; you can redistribute it and/or modify it
 under the terms of the GNU Lesser General Public License as published by
@@ -192,7 +192,7 @@ def processFile(inFile, outFile, options):
 
     lineNumber = 0
     while True:
-        line = inFile.readline().strip()
+        line = inFile.readline().strip().decode('utf-8')
         lineNumber += 1
         if not line:
             break

@@ -73,6 +73,7 @@ Mandatory Build Tools
 :Gradle: Build system
 :Sphinx: Documentation builder.  Check for ``sphinx-build``
 :Python setuptools: Provides packaging and installer.  Check for ``easy-install``
+:Python wheel: Works with setuptools to build a Python wheel (bundle)
 
 Recommended Build Tools
 -----------------------

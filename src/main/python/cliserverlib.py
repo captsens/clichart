@@ -1,7 +1,7 @@
 """
 (C) Copyright 2007-2012, by John Dickson
 
-Project Info:  http://clichart.sourceforge.net/
+Project Info:  https://github.com/captsens/clichart
 
 This library is free software; you can redistribute it and/or modify it
 under the terms of the GNU Lesser General Public License as published by
@@ -107,7 +107,7 @@ class StdoutReader(threading.Thread):
                 # EOF, so terminate thread
                 #print 'Thread terminating'
                 return
-            line = line.strip()
+            line = line.strip().decode('utf-8')
             if self.queue:
                 self.queue.put(line)
             else:
@@ -254,10 +254,10 @@ class ClichartDriver(object):
     def __sendCommand(self, command, arg=None, expectResponse=True):
         if DEBUG:
             print('Command:', command, arg)
-        self.stdin.write(command)
+        self.stdin.write(command.encode('utf-8'))
         if arg:
-            self.stdin.write(' %s' % arg)
-        self.stdin.write('\n')
+            self.stdin.write((' %s' % arg).encode('utf-8'))
+        self.stdin.write('\n'.encode('utf-8'))
         self.stdin.flush()
         if not expectResponse:
             return

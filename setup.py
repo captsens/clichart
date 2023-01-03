@@ -1,10 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from setuptools import setup, find_packages
 
 setup(
     name = "clichart",
-    version = "0.5.9",
+    version = "0.6.0a2",
     packages = find_packages(),
     entry_points = {
         'console_scripts': [

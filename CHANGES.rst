@@ -4,14 +4,16 @@ Changes to CLIChart
 
 This file documents the changes made in each release of CLIChart.
 
-Version 0.6.0a1
+Version 0.6.0a2
 ---------------
 
-Issued not-yet-released
+Issued 2023-01--4
 
  * General
 
+    - Minimal changes to get basic functionality working under Python3
     - Converted build scripts to gradle
+    - Now packaged as a wheel, not an egg.
 
 
 Version 0.5.9

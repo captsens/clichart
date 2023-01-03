@@ -2,6 +2,10 @@
 CLIChart - Visualisation from the command line
 ==============================================
 
+TODO
+============
+- Working Python3 version
+    - .decode('utf-8') on all file reads
 
 NOTE - 2020
 ===============
