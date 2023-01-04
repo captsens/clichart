@@ -32,7 +32,7 @@ Required in 3 places:
 3. Check CHANGES and TODO
 -------------------------
 
-- Ensure that all changes are recorded, and removed from TODO.
+- Ensure that all changes are recorded in ``CHANGES.rst``, and removed from TODO.
 - Ensure that the version number and release date are correct in CHANGES.
 
 

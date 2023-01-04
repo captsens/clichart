@@ -15,12 +15,13 @@ a) Install Psyco to speed up Python scripts
 Python-based tools (linestats, discretestats, mid and aggregate) will use psyco if it's
 installed, and this should speed up their operation when larger amounts of data are involved.
 
+**WARNING:** This is old advice - not tested with Python3.
+
 b) Use a Later Version of Java
 ++++++++++++++++++++++++++++++
 
 The main clichart program runs under Java.  Later versions of Java are likely to make it start and/or run
-faster.  Java 1.4 is particularly slow - if you're still on 1.4, you should think very seriously
-about upgrading.
+faster.
 
 
 Running Under Windows

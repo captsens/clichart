@@ -26,7 +26,7 @@ Launches clichart, passing all command-line arguments to it.
 Checks for JAVA_HOME, or if not set assumes that 'java' is in the path
 """
 
-import sys, os, glob
+import sys, os, glob, platform
 from subprocess import Popen, PIPE, call
 
 JAVA = 'java'
@@ -40,7 +40,7 @@ def main():
     
     # if running headless, tell Java to use AWT for fonts
     args = [javaCommand]
-    if not isWindows() and not os.environ.get('DISPLAY'):
+    if shouldRunHeadless():
         args.append('-Djava.awt.headless=true')
     
     args = args + ['-jar', clichartJar] + sys.argv[1:]
@@ -58,7 +58,14 @@ def runWindows(javaCommand, args):
 def runPosix(javaCommand, args):
     # replace this process with Java
     os.execvp(javaCommand, args)
-    
+
+# -----------------------------------------------------------------------------------
+def shouldRunHeadless():
+    # TODO - allow an envvar to override, so can run headless on Mac
+    if isWindows() or isMac():
+        return False
+    return os.environ.get('DISPLAY') is None
+
 # -----------------------------------------------------------------------------------
 def findJava():
     javaHome = os.environ.get('JAVA_HOME')
@@ -77,6 +84,10 @@ def findJava():
 # -----------------------------------------------------------------------------------
 def isWindows():
     return os.name in ['nt', 'ce']
+
+# -----------------------------------------------------------------------------------
+def isMac():
+    return os.name == 'posix' and platform.system() == 'Darwin'
 
 # -----------------------------------------------------------------------------------
 def findClichartJar():

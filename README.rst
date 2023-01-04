@@ -4,16 +4,8 @@ CLIChart - Visualisation from the command line
 
 TODO
 ============
-- Working Python3 version
-    - .decode('utf-8') on all file reads
-
-NOTE - 2020
-===============
-
-* Minor changes to get this working with Python3 (still very rough)
-* Note that now builds a Wheel, so have to install using:
-
-    pip3 install build/egg/dist/clichart-0.6.0a1-py3-none-any.whl
+- Notes on install
+- New release, including release notes
 
 
 1. Introduction

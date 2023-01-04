@@ -4,16 +4,17 @@ Changes to CLIChart
 
 This file documents the changes made in each release of CLIChart.
 
-Version 0.6.0a2
+Version 0.6.0b1
 ---------------
 
-Issued 2023-01--4
+Issued 2023-01-05
 
  * General
 
-    - Minimal changes to get basic functionality working under Python3
+    - Changed to support Python3
+    - ``clichart`` now runs correctly on Mac (previously tried to run headless)
     - Converted build scripts to gradle
-    - Now packaged as a wheel, not an egg.
+    - Now packaged as a wheel, not an egg, so installation instructions changed.
 
 
 Version 0.5.9

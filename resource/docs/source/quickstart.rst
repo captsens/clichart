@@ -14,17 +14,17 @@ Many of these examples use data in the ``samples`` directory.
 Installation
 ============
 
- 1. Make sure you have `Java <http://www.oracle.com/technetwork/java/javase/downloads/index.html>`_ installed
+ 1. Make sure you have `Java <https://www.oracle.com/java/technologies/downloads/>`_ installed
  2. Make sure you have `Python <http://www.python.org/>`_ installed
  3. Download the CLIChart zip file from the 
     `releases page <https://github.com/captsens/clichart/releases>`_ on Github, 
     and extract to a suitable directory
- 4. If you want the tools to be installed in your path (recommended):
+ 4. Change to the top-level CLIChart directory you just unzipped, and install CLIChart by typing
+    ``pip3 install clichart-x.y.z-py3-none-any.whl``, where the latter is the name of the (single) ``.whl`` file in the directory
+    (``x.y.z`` is the version number).
 
-    * Install `easy_install in the setuptools module <https://pypi.python.org/pypi/setuptools>`_
-    * Use ``easy_install clichart-x.y.z.egg`` to install (insert your version number)
-
-        + Note that on Linux you'll have to be root (or use sudo)
+    * On Linux you'll have to be root (or use sudo)
+    * On Mac, you probably want to add the ``bin`` directory to your path, e.g. ``/Users/<you>/Library/Python/3.9/bin``
 
 Test your installation by typing ``clichart -h`` at a command prompt - this should give you
 the help screen.
@@ -35,7 +35,8 @@ See the `installation page <installation.html>`_ for further information.
 Charting Pre-existing Data
 ==========================
 
-Before you start, make sure that the CLIChart ``bin`` directory is in your path.
+Before you start, make sure that the CLIChart ``bin`` directory is in your path.  Type ``clichart -h`` at a command prompt - if
+it doesn't show you a help screen, it's not in your path:
 
  * On Windows: ``set PATH=<pathToClichart\bin;%PATH%``
  * On Linux/Unix: ``export PATH=<pathToClichart/bin:$PATH``
