@@ -20,8 +20,8 @@ import sys, os
 # **********************************************
 # MAKE SURE THESE ARE UP TO DATE!
 # **********************************************
-# The short X.Y version.
-version = '0.6'
+# Supposed to be the short X.Y version, BUT MUST BE THE FULL NUMBER (SAME AS RELEASE) DUE TO POOR BUILD SCRIPT CHECK!
+version = '0.6.0b1'
 # The full version, including alpha/beta/rc tags.
 release = '0.6.0b1'
 
