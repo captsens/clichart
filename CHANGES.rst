@@ -4,10 +4,10 @@ Changes to CLIChart
 
 This file documents the changes made in each release of CLIChart.
 
-Version 0.6.0b1
+Version 0.6.0b2
 ---------------
 
-Issued 2023-01-05
+Issued 2023-01-07
 
  * General
 

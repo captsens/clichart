@@ -22,11 +22,12 @@ Check off the tools listed in /resource/docs/source/development.rst.
 2. Update version number
 ------------------------
 
-Required in 3 places:
+Required in 4 places:
 
 - build.gradle.
 - setup.py (will be done automatically during packaging, just in case)
 - resource/docs/source/conf.py (build will fail if not in sync)
+- CHANGES file.
 
 
 3. Check CHANGES and TODO
