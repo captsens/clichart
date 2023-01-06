@@ -228,13 +228,14 @@ def parseFile(inFile, columnOutput, isCsv, skipFirst):
     isFirstLine = True
     lineNumber = 0
     for line in inFile:
-        lineString = line.decode('utf-8')
+        if type(line) == type(b''):
+            line = line.decode('utf-8')
         lineNumber += 1
         #print lineString
         if isFirstLine and skipFirst:
             isFirstLine = False
             continue
-        cpts = splitLine(lineString, isCsv)
+        cpts = splitLine(line, isCsv)
         #print cpts
         keyValues = extractKey(cpts, keyColumnNumbers, lineNumber)
         keyedRow = keyedRowStats.setdefault(keyValues, KeyedRowStats(keyValues, allColumnStats))

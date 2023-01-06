@@ -142,7 +142,9 @@ def processFile(inFile, outFile, options):
 
     lineNumber = 0
     while True:
-        line = inFile.readline().strip().decode('utf-8')
+        line = inFile.readline().strip()
+        if type(line) == type(b''):
+            line = line.decode('utf-8')
         lineNumber += 1
         if not line:
             break

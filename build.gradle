@@ -139,7 +139,7 @@ task wheel(dependsOn: [build, libs, setupPy]) {
     doLast {
         copy {
             from libsDir
-            from pythonScriptDir
+            from "$pythonScriptDir/clichart"
             include '**/*.jar'
             include '**/*.py'    
             into wheelContentDir

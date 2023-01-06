@@ -112,12 +112,13 @@ def parseFile(inFile, columns, dateColumn, dateFormat, isCsv, skipFirst):
     lineNumber = 0
     for line in inFile:
         lineNumber += 1
-        lineString = line.decode('utf-8')
+        if type(line) == type(b''):
+            line = line.decode('utf-8')
         #print line
         if isFirstLine and skipFirst:
             isFirstLine = False
             continue
-        cpts = splitLine(lineString, isCsv, strip=True)
+        cpts = splitLine(line, isCsv, strip=True)
         #print cpts
         try:
             columnValues = [float(cpts[index]) for index in columns]

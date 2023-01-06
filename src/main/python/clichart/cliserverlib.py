@@ -107,7 +107,9 @@ class StdoutReader(threading.Thread):
                 # EOF, so terminate thread
                 #print 'Thread terminating'
                 return
-            line = line.strip().decode('utf-8')
+            line = line.strip()
+            if type(line) == type(b''):
+                line = line.decode('utf-8')
             if self.queue:
                 self.queue.put(line)
             else:

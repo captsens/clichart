@@ -105,8 +105,9 @@ class LineParser:
                 self._printLine(line)
                 return
 
-    def lineRead(self, lineBytes):
-        line = lineBytes.decode('utf-8')
+    def lineRead(self, line):
+        if type(line) == type(b''):
+            line = line.decode('utf-8')
         #print 'line:', line
         self.lineNumber += 1
         adviseLine = True

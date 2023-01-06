@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
     name = "clichart",
     version = "0.6.0b2",
-    packages = find_packages(),
+    packages = ['clichart',],
     entry_points = {
         'console_scripts': [
             'aggregate = clichart.aggregate:main',
