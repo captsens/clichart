@@ -21,9 +21,9 @@ import sys, os
 # MAKE SURE THESE ARE UP TO DATE!
 # **********************************************
 # Supposed to be the short X.Y version, BUT MUST BE THE FULL NUMBER (SAME AS RELEASE) DUE TO POOR BUILD SCRIPT CHECK!
-version = '0.6.0b2'
+version = '0.6.0b3'
 # The full version, including alpha/beta/rc tags.
-release = '0.6.0b2'
+release = '0.6.0b3'
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the

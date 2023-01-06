@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name = "clichart",
-    version = "0.6.0b2",
+    version = "0.6.0b3",
     packages = ['clichart',],
     entry_points = {
         'console_scripts': [
