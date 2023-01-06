@@ -31,7 +31,7 @@ Usage
 =====
 You use the tool like this::
 
-  merge.py [options] inputFile*
+  merge [options] inputFile*
 
 Output is always to stdout.
 
@@ -64,7 +64,7 @@ Example:
 ========
 
 Merges two CSV files, where the key is the first column in each file.  Output the second and
-third columns from each file.
+third columns from each file. ::
 
-  merge.py -k 0:0,1:0 -l 0:1,0:2,1:1,1:2 -c file1.csv file2.csv
+  merge -k 0:0,1:0 -l 0:1,0:2,1:1,1:2 -c file1.csv file2.csv
 

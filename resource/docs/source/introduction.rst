@@ -40,6 +40,7 @@ The project consists of the following tools:
  * mid - extracts parts of files or other data
  * merge - merges tabular data from 2 or more sources
  * aggregate - aggregates (or summarises) data from other tabular data
+ * derivative - calculates derivatives (rate of change) from other tabular data
  * histogram - generates histograms (frequency spread) from other tabular data.
 
  .. figure:: _static/images/overview-small.png
@@ -170,6 +171,12 @@ aggregate
 1 line of summary data for each input file.  A typical use is generating data to show
 long-term trends, where you already have a number of tabular data files covering shorter
 periods.
+
+derivative
+-------------
+
+:doc:`derivative` is used to calculate derivatives (time rate of change) from tabular data containing both timestamps and
+fields with numeric values.  A typical use is to plot the rate in change per second of fields of interest.
 
 histogram
 ---------

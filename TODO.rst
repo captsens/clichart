@@ -1,3 +1,11 @@
+Most recent (from 0.6.0 release)
+===========
+- Gradle build does not support running Java unit tests, and only runs python tests if triggered explicitly
+- derivative script is very basic (and is not yet shown on the diagram in Introduction)
+- Should use Python library for CSV parsing, rather than DIY
+
+Older items
+==================
 Move to github
 - Page on how to develop, including location of code
 - Set up release
@@ -12,19 +20,19 @@ Move to github
     
 - Support for remote cliserver mode
     - Java
-    	- Main
-    		- If port is set on options, create a TCP/IP socket server
-    			- The socket server has a chart generator factory, and will create CliServers
+        - Main
+            - If port is set on options, create a TCP/IP socket server
+                - The socket server has a chart generator factory, and will create CliServers
         - Simple TCP/IP socket server
-        	- Option for listen port
-        		- doco
-	        - Later: Command-line options to start in this mode
-	            - Listen address (default to localhost)
-	            - Max threads
-	            - Read timeout (close socket)
-	            - Close after inactivity time?
+            - Option for listen port
+                - doco
+            - Later: Command-line options to start in this mode
+                - Listen address (default to localhost)
+                - Max threads
+                - Read timeout (close socket)
+                - Close after inactivity time?
             - Socket server class
-            	- Shut socket on timeout (use existing timer class?)
+                - Shut socket on timeout (use existing timer class?)
     - Python
         - allow cliserverlib to support this mode too
             x specify port

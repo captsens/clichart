@@ -97,7 +97,7 @@ class LineParser:
                     self.bufferStartLine = min(self.bufferStartLine, rangeSpec.start)
 
     def _printLine(self, line):
-        print(line, end=' ')
+        print(line, end='')
 
     def _adviseLine(self, lineNumber, line):
         for rangeSpec in self.rangeSpecs:
@@ -105,7 +105,8 @@ class LineParser:
                 self._printLine(line)
                 return
 
-    def lineRead(self, line):
+    def lineRead(self, lineBytes):
+        line = lineBytes.decode('utf-8')
         #print 'line:', line
         self.lineNumber += 1
         adviseLine = True
@@ -206,8 +207,7 @@ def getLineCount(input):
     return lineCount
 
 # ----------------------------------------------------------------------------
-def main():
-    args = sys.argv[1:]
+def main(args=sys.argv[1:]):
     if not args or args[0] == '-h':
         usage()
 
@@ -227,11 +227,11 @@ def main():
     if filePath is not None:
         setExplicitRangeIndexes(rangeSpecs, filePath)
 
-    input = openInput(filePath)
-    parser = LineParser(rangeSpecs)
-    for line in input:
-        parser.lineRead(line)
-    parser.readingFinished()
+    with openInput(filePath) as input:
+        parser = LineParser(rangeSpecs)
+        for lineBytes in input:
+            parser.lineRead(lineBytes)
+        parser.readingFinished()
 
 # ----------------------------------------------------------------------------
 if __name__ == '__main__':

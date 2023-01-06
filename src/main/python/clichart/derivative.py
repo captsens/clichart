@@ -36,7 +36,8 @@ def usage(msg = None):
         print(msg)
         print()
     print("""
-TODO - output derivatives of columns
+Output derivatives (rate of change per second) of columns.
+
 Output is in the same format as the input, i.e. whitespace or comma-separated.
 
 Usage: derivative [options] [inputFile*]
@@ -47,7 +48,7 @@ Options:
  -f           First row of file is a header row, and should be skipped
  -h           Show help (this information) and exit
  -l <columns> A comma-separated ordered list of columns for which derivatives are required
- -u <columns> A comma-separated ordered list of columns that should be copied to the output
+              (0-based)
  --date-column <column>  Date/time column number (0-based, defaults to 0)
  --nojit      Disable Psyco Just-In-Time compiler.
 """)
@@ -111,18 +112,19 @@ def parseFile(inFile, columns, dateColumn, dateFormat, isCsv, skipFirst):
     lineNumber = 0
     for line in inFile:
         lineNumber += 1
+        lineString = line.decode('utf-8')
         #print line
         if isFirstLine and skipFirst:
             isFirstLine = False
             continue
-        cpts = splitLine(line, isCsv, strip=True)
+        cpts = splitLine(lineString, isCsv, strip=True)
         #print cpts
         try:
             columnValues = [float(cpts[index]) for index in columns]
             timestampStr = cpts[dateColumn]
             timestamp = datetime.datetime.strptime(timestampStr, dateFormat)
-        except TypeError:
-            print('Invalid number on line %d of file - skipping line' % lineNumber, file=sys.stderr)
+        except TypeError as e:
+            print('Invalid number on line %d of file - skipping line: %s' % (lineNumber, e), file=sys.stderr)
             continue
         if lastValues is None:
             lastValues = columnValues

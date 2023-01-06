@@ -27,7 +27,7 @@ Usage
 
 You use the tool like this::
 
-    mid.py [options] range [range *] [inputFile]
+    mid [options] range [range *] [inputFile]
 
 If no input file is specified, reads from stdin.  Output is always to stdout.
 

@@ -6,7 +6,7 @@ Unit tests for statslib
 
 import unittest
 from io import StringIO
-from statslib import *
+from clichart.statslib import *
 
 TEST_LINE = 'abcdef'
 TEST_LINE_WITH_SPACES = 'abc def   ghi\tjkl'

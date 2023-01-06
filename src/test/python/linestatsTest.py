@@ -5,9 +5,9 @@ Unit tests for linestats.py
 """
 
 import unittest
-from io import StringIO
-from linestats import *
-import statslib
+from io import StringIO, BytesIO
+from clichart.linestats import *
+from clichart import statslib
 
 TEST_INPUT_1 = '\n'.join(['01:24 xxx', '01:24 yyy', '12:32 aa', '12:33 b'])
 TEST_INPUT_2 = '\n'.join(['01:24 Ham  72  The end  6.3',
@@ -114,7 +114,7 @@ class LineStatsTest(unittest.TestCase):
     def testSimpleCsv(self):
         options = buildOptions('-ck s:0:5')
         outFile = StringIO()
-        inFile = StringIO(TEST_INPUT_1)
+        inFile = BytesIO(TEST_INPUT_1.encode('utf-8'))
         processFile(inFile, outFile, options)
         self._checkOutput(outFile, ['01:24, 2', '12:32, 1', '12:33, 1'])
 
@@ -122,7 +122,7 @@ class LineStatsTest(unittest.TestCase):
         """Also has header row"""
         options = buildOptions('-sk s:0:5 -f Note_that_checkOutput_doesnt_work_with_spaces')
         outFile = StringIO()
-        inFile = StringIO(TEST_INPUT_1)
+        inFile = BytesIO(TEST_INPUT_1.encode('utf-8'))
         processFile(inFile, outFile, options)
         self._checkOutput(outFile, ['Note_that_checkOutput_doesnt_work_with_spaces', '   01:24  2',
                 '   12:32  1', '   12:33  1'], False)
@@ -131,7 +131,7 @@ class LineStatsTest(unittest.TestCase):
         options = buildOptions('-ck s:0:5 -v s:10:14 -v f:5 ' \
                 + '-l k,k:cnt,0:min,0:max,0:tot,0:av,1:min,1:max,1:tot,1:av')
         outFile = StringIO()
-        inFile = StringIO(TEST_INPUT_2)
+        inFile = BytesIO(TEST_INPUT_2.encode('utf-8'))
         processFile(inFile, outFile, options)
         self._checkOutput(outFile, ['01:24, 2, 12.0, 72.0, 84.0, 42.0, 0.123, 6.3, 6.423, 3.2115',
                 '12:32, 1, 999.0, 999.0, 999.0, 999.0, 9.99, 9.99, 9.99, 9.99',

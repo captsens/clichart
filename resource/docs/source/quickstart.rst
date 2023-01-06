@@ -190,7 +190,7 @@ CLIChart provides a Python script called linestats, which we could use instead o
 is a bit like using a sledgehammer to crack a walnut, but if you don't have access to the UNIX tools
 (you fool!  why not?!), this will do the job.  Make sure you have Python installed to use this one. ::
 
-    linestats.py -m VMStatusLogger -k s:0:5 -v f:4 -v f:7 -v f:11 \
+    linestats -m VMStatusLogger -k s:0:5 -v f:4 -v f:7 -v f:11 \
             -l k,0:min,1:min,2:min samples/System.log \
             | clichart -l 0,1,2,3
 
@@ -228,7 +228,7 @@ lines of data) occurs.
 
 Here's an example of its output: ::
 
-    linestats.py -m Transaction -k s:0:5 -l k:cnt,k samples/System.log | head
+    linestats -m Transaction -k s:0:5 -l k:cnt,k samples/System.log | head
     36        02:30
     39        02:31
     37        02:32
@@ -251,7 +251,7 @@ Notes:
 
 So now we can feed this summary data into clichart to see what the system was really doing: ::
 
-    linestats.py -m Transaction -k s:0:5 -l k:cnt,k samples/System.log | clichart -l 1,0
+    linestats -m Transaction -k s:0:5 -l k:cnt,k samples/System.log | clichart -l 1,0
 
 And the result is a window showing that the system was pretty busy from around 3:10 am:
 
@@ -280,7 +280,7 @@ By now it will come as no surprise to find that linestats is your friend.  But s
 to do more work, its command line is more complex.  We've also taken the opportunity to add some column
 titles to make the clichart output prettier: ::
 
-    linestats.py -m Transaction -k s:0:5 -v 'r:A:(\d+)' \
+    linestats -m Transaction -k s:0:5 -v 'r:A:(\d+)' \
             -c -l k,0:min,0:av,0:max -f 'Timestamp, Min, Average, Max' samples/System.log \
             | clichart -cl 0,1,2,3 -f -y "Transaction amount (cents)"
 
@@ -316,7 +316,7 @@ output from the data - instead, we expect to see one column for each discrete va
 This time, instead of linestats we need another program from the CLIChart stable - discretestats.
 You can probably guess what it's for, from the name.  ::
 
-    discretestats.py -k s:0:5 -v f:1 -c samples/System.log \
+    discretestats -k s:0:5 -v f:1 -c samples/System.log \
             | clichart -cl 0,2,3 -f -y "Messages per minute"
 
 And here's the result:
@@ -359,12 +359,12 @@ And here's how it looks on the command line: ::
 
     grep /someurl /var/log/httpd/access_log \
         | awk '{print substr($4, 2, 17)}' \
-        | linestats.py \
+        | linestats \
         | clichart -d "dd/MMM/yyyy:HH:mm"
 
 You could do the same using linestats to replace grep and awk (useful if you're using Windows): ::
 
-    linestats.py -m /someurl -k "r:\[(\d\d/.../\d\d\d\d:\d\d:\d\d:\d\d)" \
+    linestats -m /someurl -k "r:\[(\d\d/.../\d\d\d\d:\d\d:\d\d:\d\d)" \
         /var/log/httpd/access_log \
         | clichart -d "dd/MMM/yyyy:HH:mm"
 
@@ -401,7 +401,7 @@ In the simplest example, we use some unix tools to find the files and work out t
 
     for f in `find someDir -name "System.log.*.memoryThreads.csv"`; do
         logDate=`echo ${f:11:10}`
-        aggregate.py -cf -p $logDate -l 2:last,3:av,3:max $f >> MemoryThreadsSummary.csv
+        aggregate -cf -p $logDate -l 2:last,3:av,3:max $f >> MemoryThreadsSummary.csv
     done
 
 The summary file will contain a line for each day, looking something like this: ::

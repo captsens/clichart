@@ -47,7 +47,7 @@ Usage
 
 You use the tool like this::
 
-    discretestats.py [inputOptions] [outputOptions] [inputFile]
+    discretestats [inputOptions] [outputOptions] [inputFile]
 
 If no input file is specified, reads from stdin.  Output is always to stdout.
 

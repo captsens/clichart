@@ -4,8 +4,9 @@
 Unit tests for mid.py
 """
 
-import unittest
-from mid import *
+import unittest, sys, os
+from io import StringIO
+from clichart.mid import *
 
 # ============================================================================
 class RangeSpecTest(unittest.TestCase):
@@ -58,7 +59,7 @@ class LineParserTest(unittest.TestCase):
 
     def _readFile(self, parser, numLines):
         for i in range(numLines):
-            parser.lineRead('%d\n' % (i + 1))
+            parser.lineRead(('%d\n' % (i + 1)).encode('utf-8'))
         parser.readingFinished()
 
     def testSimpleRange(self):
@@ -99,7 +100,21 @@ class LineParserTest(unittest.TestCase):
         self.assertEqual('27\n', parser.lines[11])
         self.assertEqual('30\n', parser.lines[14])
 
-
+    def testRealFile(self):
+        baseDir = os.path.join(os.path.split(__file__)[0], '../../..')
+        args = ['1:20', '30:30', '-1:-1', baseDir + '/resource/samples/System.log']
+        stdout = sys.stdout
+        output = StringIO()
+        sys.stdout = output
+        main(args)
+        sys.stdout = stdout
+        # print(output.getvalue())
+        lines = output.getvalue().splitlines()
+        self.assertEqual(22, len(lines))
+        self.assertEqual('02:30:00,648 INFO  Transaction A:4755 C:0 R:0', lines[0])
+        self.assertEqual('02:30:02,879 INFO  Transaction A:5821 C:0 R:0', lines[1])
+        self.assertTrue(lines[20].startswith('02:30:45,220 INFO  VMStatusLogger'))
+        self.assertEqual('03:59:59,649 INFO  Transaction A:18013 C:0 R:0', lines[21])
 
 # ============================================================================
 if __name__ == '__main__':

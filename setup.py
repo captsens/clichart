@@ -4,12 +4,13 @@ from setuptools import setup, find_packages
 
 setup(
     name = "clichart",
-    version = "0.6.0a2",
+    version = "0.6.0b2",
     packages = find_packages(),
     entry_points = {
         'console_scripts': [
             'aggregate = clichart.aggregate:main',
             'clichart = clichart.clichart:main',
+            'derivative = clichart.derivative:main',
             'discretestats = clichart.discretestats:main',
             'histogram = clichart.histogram:main',
             'linestats = clichart.linestats:main',

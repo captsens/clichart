@@ -5,9 +5,9 @@ Unit tests for discretestats.py
 """
 
 import unittest
-from io import StringIO
-from discretestats import *
-import statslib
+from io import BytesIO, StringIO
+from clichart.discretestats import *
+from clichart import statslib
 
 TEST_INPUT = '\n'.join(['01:24 Ham  72  The end  6.3',
         '01:24 Ham  12  some words  0.123',
@@ -33,14 +33,14 @@ class DiscreteStatsTest(unittest.TestCase):
     def testSimpleCsv(self):
         options = buildOptions('-ck s:0:5 -v f:1')
         outFile = StringIO()
-        inFile = StringIO(TEST_INPUT)
+        inFile = BytesIO(TEST_INPUT.encode('utf-8'))
         processFile(inFile, outFile, options)
         self._checkOutput(outFile, ['Key, Egg, Ham', '01:24, 0, 2', '12:32, 1, 0', '12:33, 1, 0'])
 
     def testSimpleSortedText(self):
         options = buildOptions('-sk s:0:5 -v s:6:9')
         outFile = StringIO()
-        inFile = StringIO(TEST_INPUT)
+        inFile = BytesIO(TEST_INPUT.encode('utf-8'))
         processFile(inFile, outFile, options)
         self._checkOutput(outFile, ['Key      Egg       Ham', '01:24 0         2',
                 '12:32 1         0', '12:33 1         0'], False)
@@ -48,7 +48,7 @@ class DiscreteStatsTest(unittest.TestCase):
     def testQuotedCsv(self):
         options = buildOptions('-csqk s:0:5 -v r:([A-Za-z][a-z]+[^a-z][a-z]+)')
         outFile = StringIO()
-        inFile = StringIO(TEST_INPUT)
+        inFile = BytesIO(TEST_INPUT.encode('utf-8'))
         processFile(inFile, outFile, options)
         self._checkOutput(outFile, ['Key, "The end", "more words", "some words", "zzz aa"',
                 '01:24, 1, 0, 1, 0', '12:32, 0, 0, 0, 1', '12:33, 0, 1, 0, 0'])

@@ -34,7 +34,7 @@ i.e. whitespace or comma-separated.
 
 You use the tool like this::
 
-    histogram.py [options] [inputFile]
+    histogram [options] [inputFile]
 
 If no input file is specified, reads from stdin.  Output is always to stdout.
 
@@ -73,7 +73,7 @@ Examples
 Using data from the samples directory, we can generate a histogram for case fan speed
 (column 4, counting from 0), and dividing the data into 5 intervals: ::
 
-    $ histogram.py -i 5 -l 4 samples/SystemTemps.txt
+    $ histogram -i 5 -l 4 samples/SystemTemps.txt
     2017 2108 5
     2108 2199 0
     2199 2290 2
@@ -84,7 +84,7 @@ The CSV version of the data also has a header row, which needs to be skipped.  W
 add an output header.  This timie we'll do the CPU temperature (column 1), which is a floating
 point number: ::
 
-    $ histogram.py -i 5 -l 1 -cf --header samples/SystemTemps.csv
+    $ histogram -i 5 -l 1 -cf --header samples/SystemTemps.csv
     Interval_Start, Interval_End, Count
     57.8000, 59.8800, 4
     59.8800, 61.9600, 1
@@ -95,4 +95,4 @@ point number: ::
 To chart this using clichart, we'd do something like this (note the -v flag, since the x axis is
 based on values rather than timestamps): ::
 
-    $ histogram.py -i 5 -l 1 -cf samples/SystemTemps.csv | clichart -l 1,2 -cbv
+    $ histogram -i 5 -l 1 -cf samples/SystemTemps.csv | clichart -l 1,2 -cbv

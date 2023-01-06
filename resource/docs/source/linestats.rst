@@ -42,7 +42,7 @@ Usage
 
 You use the tool like this::
 
-    linestats.py [inputOptions] [outputOptions] [inputFile]
+    linestats [inputOptions] [outputOptions] [inputFile]
 
 If no input file is specified, reads from stdin.  Output is always to stdout.
 

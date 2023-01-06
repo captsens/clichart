@@ -45,6 +45,8 @@ ALL_OUTPUT_TYPES = (OUTPUT_MIN, OUTPUT_MAX, OUTPUT_AVERAGE, OUTPUT_COUNT, OUTPUT
 
 COLUMN_EXPRESSION_RE = re.compile(r'(-?\d+):(%s)' % '|'.join(ALL_OUTPUT_TYPES))
 
+STRIP_QUOTES_RE = re.compile(r'[" ]*([0-9.]+)[" ]*')
+
 # ===============================================================
 def usage(msg = None):
     if msg:
@@ -107,17 +109,24 @@ class ColumnStats(object):
         self.lastAverage = None
         self.lastQ = None
 
-    def accumulate(self, stringValue, lineNumber):
-        """Note that value is a string"""
+    def _parseValue(self, stringValue, lineNumber):
+        if '"' in stringValue:
+            match = STRIP_QUOTES_RE.match(stringValue)          # Allow quotes around numbers
+            if not match:
+                raise InvalidDataException('Invalid number in column %d, line %d: %s' % (self.columnNumber,
+                                                                                         lineNumber, stringValue))
+            stringValue = match.group(1)
         try:
-            value = int(stringValue)
+            return int(stringValue)
         except:
             try:
-                value = float(stringValue)
+                return float(stringValue)
             except:
                 raise InvalidDataException('Invalid number in column %d, line %d: %s' % (self.columnNumber,
-                        lineNumber, stringValue))
+                                                                                         lineNumber, stringValue))
 
+    def accumulate(self, stringValue, lineNumber):
+        value = self._parseValue(stringValue, lineNumber)
         self.total += value
         self.count += 1
         if self.min is None or value < self.min:
@@ -219,12 +228,13 @@ def parseFile(inFile, columnOutput, isCsv, skipFirst):
     isFirstLine = True
     lineNumber = 0
     for line in inFile:
+        lineString = line.decode('utf-8')
         lineNumber += 1
-        #print line
+        #print lineString
         if isFirstLine and skipFirst:
             isFirstLine = False
             continue
-        cpts = splitLine(line, isCsv)
+        cpts = splitLine(lineString, isCsv)
         #print cpts
         keyValues = extractKey(cpts, keyColumnNumbers, lineNumber)
         keyedRow = keyedRowStats.setdefault(keyValues, KeyedRowStats(keyValues, allColumnStats))

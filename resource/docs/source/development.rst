@@ -2,6 +2,9 @@
 Developing CLIChart
 =====================
 
+**NOTE: CLIChart has not been under active development for a long time now, so this page is no longer very relevant.**
+
+
 CLIChart needs your help!
 =========================
 
@@ -72,7 +75,7 @@ Mandatory Build Tools
 :Java JDK:
 :Gradle: Build system
 :Sphinx: Documentation builder.  Check for ``sphinx-build``
-:Python setuptools: Provides packaging and installer.  Check for ``easy-install``
+:Python setuptools: Provides packaging and installer.  Check for ``pip3``
 :Python wheel: Works with setuptools to build a Python wheel (bundle)
 
 Recommended Build Tools

@@ -10,8 +10,8 @@ TODO:
 
 import unittest
 from io import StringIO
-from histogram import *
-from statslib import InvalidDataException
+from clichart.histogram import *
+from clichart.statslib import InvalidDataException
 
 CSV_INPUT = """1, 17.2, 55, 120.888
 6, 4, 51, 220.888

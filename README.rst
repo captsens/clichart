@@ -4,8 +4,9 @@ CLIChart - Visualisation from the command line
 
 TODO
 ============
-- Notes on install
+- Notes on derivative script: install in path, doco, test
 - New release, including release notes
+- Use proper python CSV parsing
 
 
 1. Introduction

@@ -34,7 +34,7 @@ or comma-separated.
 
 You use the tool like this::
 
-    aggregate.py [options] [inputFile*]
+    aggregate [options] [inputFile*]
 
 If no input file is specified, reads from stdin.  Output is always to stdout.
 
@@ -110,22 +110,22 @@ Examples
 Using data from the samples directory, we can extract the minimum, average and maximum
 CPU temperature and fan speed: ::
 
-    $ aggregate.py -cfl 1:min,1:av,1:max,3:min,3:av,3:max samples/SystemTemps.csv
+    $ aggregate -cfl 1:min,1:av,1:max,3:min,3:av,3:max samples/SystemTemps.csv
     57.80, 64.73, 68.20, 2376, 2448, 2510
 
 If we're only interested in what the values were at the start and end of the day: ::
 
-    $ aggregate.py -cfl 1:first,1:last,3:first,3:last samples/SystemTemps.csv
+    $ aggregate -cfl 1:first,1:last,3:first,3:last samples/SystemTemps.csv
     58.50, 65.40, 2376, 2471
 
 And if we want the date as the first column in the output: ::
 
-    $ aggregate.py -cfl 1:first,1:last,3:first,3:last -p 12/03/2007 samples/SystemTemps.csv
+    $ aggregate -cfl 1:first,1:last,3:first,3:last -p 12/03/2007 samples/SystemTemps.csv
     12/03/2007, 58.50, 65.40, 2376, 2471
     
 Alternatively to generate aggregates keyed on (grouped by) one of the columns: ::
-    
-    $ aggregate.py -cfl 3:k,1:min,1:av,1:max samples/SystemTemps.csv
+
+    $ aggregate -cfl 3:k,1:min,1:av,1:max samples/SystemTemps.csv
     2376, 57.8000, 58.8600, 61.5000
     2451, 66.1000, 66.6500, 67.2000
     2471, 65.4000, 66.9429, 67.9000

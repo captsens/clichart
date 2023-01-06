@@ -14,8 +14,16 @@ Issued 2023-01-05
     - Changed to support Python3
     - ``clichart`` now runs correctly on Mac (previously tried to run headless)
     - Converted build scripts to gradle
+    - Restructured directories for python scripts
     - Now packaged as a wheel, not an egg, so installation instructions changed.
 
+ * aggregate
+
+    - Now supports aggregating quoted numbers (e.g. in CSV)
+
+ * derivative
+
+    - Basic new script to calculate time-based rate of change
 
 Version 0.5.9
 ---------------

@@ -5,7 +5,7 @@
 
 apply plugin: 'java'
 
-version = '0.6.0b1'
+version = '0.6.0b2'
 
 group = 'clichart'
 
